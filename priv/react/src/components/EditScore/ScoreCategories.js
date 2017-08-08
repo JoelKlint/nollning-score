@@ -3,7 +3,7 @@ import './ScoreCategories.css'
 import { connect } from 'react-redux'
 import R from 'ramda'
 
-import Question from './Question'
+import Slider from './Slider'
 
 class ScoreCategories extends React.Component {
 
@@ -13,7 +13,7 @@ class ScoreCategories extends React.Component {
                 <div>
                     {this.props.categories.map((c, i) => {
                         return (
-                            <Question key={i} question={c} />
+                            <Slider key={i} question={c} />
                         )
                     })}
                 </div>
