@@ -20,10 +20,10 @@ class CategoryReviewEntry extends React.Component {
                 <div className="CategoryReviewEntry_Slider">
                     <Slider 
                         disabled={true}
-                        min={category.min}
-                        max={category.max}
+                        min={category.interval_min}
+                        max={category.interval_max}
                         dots={true}
-                        value={R.pathOr(category.min, ['value'], score)}
+                        value={R.pathOr(category.interval_min, ['value'], score)}
                         handleStyle={{
                             transform: 'scale(2)'
                         }}

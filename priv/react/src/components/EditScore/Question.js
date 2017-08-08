@@ -70,10 +70,10 @@ class Question extends React.Component {
                     <div className="Question_SliderWrapper">
                         <Slider 
                             onChange={(e) => this.setValue(e)}
-                            min={category.min}
-                            max={category.max}
+                            min={category.interval_min}
+                            max={category.interval_max}
                             dots={true}
-                            value={R.pathOr(category.min, ['value'], score)}
+                            value={R.pathOr(category.interval_min, ['value'], score)}
                             handleStyle={{
                                 transform: 'scale(2)'
                             }}
