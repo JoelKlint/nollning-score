@@ -5,6 +5,7 @@
   "dependencies": {
     "jumpstate": "^2.2.2",
     "material-ui": "^0.18.7",
+    "node-sass-chokidar": "0.0.3",
     "normalizr": "^3.2.3",
     "ramda": "^0.24.0",
     "rc-slider": "^7.0.6",
@@ -20,9 +21,14 @@
     "react-scripts": "0.9.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "build-css": "node-sass-chokidar --include-path ./src src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src src/ -o src/ --watch --recursive",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && react-scripts build",
+    "test-js": "react-scripts test --env=jsdom",
+    "test": "npm-run-all -p watch-css test-js",
+    "test-ci": "npm run build-css && CI=true npm run test-js",
     "eject": "react-scripts eject"
   }
 }
