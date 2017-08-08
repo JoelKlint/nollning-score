@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "dev-backend": "mix phoenix.server",
+    "dev-frontend": "cd priv/react && npm start",
+    "dev": "npm-run-all -p dev-backend dev-frontend",
+    "backend-testwatch": "mix test.watch",
+    "frontend-testwatch": "cd priv/react && npm run test"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.0.2"
+  }
+}

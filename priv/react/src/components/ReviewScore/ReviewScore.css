@@ -1,0 +1,11 @@
+.ReviewScore_EditButton {
+    width: 80px;
+    height: 40px;
+    border: 1px solid black;
+    position: absolute;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}

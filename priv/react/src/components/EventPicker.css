@@ -1,0 +1,13 @@
+.EventPicker_Base {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.EventPicker_Title {
+    text-align: center;
+}
+
+.EventPicker_Entries {
+    margin: 20px;
+}

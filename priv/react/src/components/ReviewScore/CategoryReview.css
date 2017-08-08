@@ -1,0 +1,19 @@
+.CategoryReviewEntry_Base {
+    display: flex;
+    justify-content: center;
+}
+
+.CategoryReview_Title {
+    margin-bottom: 40px;
+    font-size: 1.6em;
+    text-align: center;
+}
+
+.CategoryReviewEntry_Guild {
+    width: 20%;
+    margin-bottom: 15px;
+}
+
+.CategoryReviewEntry_Slider {
+    width: 60%;
+}
