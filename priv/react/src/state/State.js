@@ -2,6 +2,8 @@ import { State, Effect, Actions } from 'jumpstate'
 import R from 'ramda'
 import { schema, normalize } from 'normalizr'
 
+const API_BASE_URL = "http://192.168.0.194:4000"
+
 export default State({
 
     initial: {
@@ -32,7 +34,7 @@ export default State({
 })
 
 Effect('getAllEvents', () => {
-    fetch("http://192.168.0.100:4000/api/events")
+    fetch(`${API_BASE_URL}/api/events`)
     .then(res => res.json())
     .then(res => {
         // Create schemas for normalize
@@ -49,7 +51,7 @@ Effect('getAllEvents', () => {
 })
 
 Effect('getEvent', (event_id) => {
-    fetch(`http://192.168.0.100:4000/api/events/${event_id}`)
+    fetch(`${API_BASE_URL}/api/events/${event_id}`)
     .then(res => res.json())
     .then(res => {
         const category = new schema.Entity('categories')
@@ -64,7 +66,7 @@ Effect('getEvent', (event_id) => {
 })
 
 Effect('getAllGuilds', () => {
-    fetch(`http://192.168.0.100:4000/api/guilds`)
+    fetch(`${API_BASE_URL}/api/guilds`)
     .then(res => res.json())
     .then(res => {
         const guild = new schema.Entity('guilds')
@@ -76,7 +78,7 @@ Effect('getAllGuilds', () => {
 })
 
 Effect('getAllCategoriesForEvent', (event_id) => {
-    fetch(`http://192.168.0.100:4000/api/events/${event_id}/categories`)
+    fetch(`${API_BASE_URL}/api/events/${event_id}/categories`)
     .then(res => res.json())
     .then(res => {
         const event = new schema.Entity('events')
@@ -91,7 +93,7 @@ Effect('getAllCategoriesForEvent', (event_id) => {
 })
 
 Effect('getAllScoresForEvent', (event_id) => {
-    fetch(`http://192.168.0.100:4000/api/events/${event_id}/scores`)
+    fetch(`${API_BASE_URL}/api/events/${event_id}/scores`)
     .then(res => res.json())
     .then(res => {
         const guild = new schema.Entity('guilds')
@@ -108,7 +110,7 @@ Effect('getAllScoresForEvent', (event_id) => {
 })
 
 Effect('setScoreForCategoryAndGuild', (payload) => {
-    fetch(`http://192.168.0.100:4000/api/categories/${payload.category_id}/scores`, 
+    fetch(`${API_BASE_URL}/api/categories/${payload.category_id}/scores`, 
         {
             method: 'post', 
             body: JSON.stringify({
@@ -137,7 +139,7 @@ Effect('setScoreForCategoryAndGuild', (payload) => {
 })
 
 Effect('getResultsForEvent', (event_id) => {
-    fetch(`http://192.168.0.100:4000/api/events/${event_id}/results`)
+    fetch(`${API_BASE_URL}/api/events/${event_id}/results`)
     .then(res => res.json())
     .then(res => {
         const guild = new schema.Entity('guilds')
