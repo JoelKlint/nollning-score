@@ -11,7 +11,7 @@ defmodule NollningScore.CategoryView do
 
   def render("category.json", %{category: category, relations: relations}) do
 
-    attrs = [:id, :name, :min, :max] ++ (relations || [])
+    attrs = [:id, :name, :interval_min, :interval_max, :type, :absolute, :global, :weight] ++ (relations || [])
 
     category
     |> Map.take(attrs)

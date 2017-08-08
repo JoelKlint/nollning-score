@@ -30,19 +30,22 @@ defmodule NollningScore.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.2.4"},
-     {:phoenix_pubsub, "~> 1.0"},
-     {:phoenix_ecto, "~> 3.0"},
-     {:postgrex, ">= 0.0.0"},
-     {:phoenix_html, "~> 2.6"},
-     {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:gettext, "~> 0.11"},
-     {:cowboy, "~> 1.0"},
-     {:ex_machina, "~> 2.0", only: :test},
-     {:poison, "~> 2.0"},
-     {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
-     {:cors_plug, "~> 1.2"},
-     {:plug_static_index_html, "~> 0.1.2"}]
+    [
+      {:phoenix, "~> 1.2.4"},
+      {:phoenix_pubsub, "~> 1.0"},
+      {:phoenix_ecto, "~> 3.0"},
+      {:postgrex, ">= 0.0.0"},
+      {:phoenix_html, "~> 2.6"},
+      {:phoenix_live_reload, "~> 1.0", only: :dev},
+      {:gettext, "~> 0.11"},
+      {:cowboy, "~> 1.0"},
+      {:ex_machina, "~> 2.0", only: :test},
+      {:poison, "~> 2.0"},
+      {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
+      {:cors_plug, "~> 1.2"},
+      {:plug_static_index_html, "~> 0.1.2"},
+      {:ecto_enum, "~> 1.0"}
+    ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

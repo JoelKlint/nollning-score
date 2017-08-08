@@ -3,8 +3,12 @@ defmodule NollningScore.Category do
 
   schema "categories" do
     field :name, :string
-    field :min, :integer
-    field :max, :integer
+    field :type, CategoryTypeEnum
+    field :absolute, :boolean
+    field :global, :boolean
+    field :weight, :integer
+    field :interval_min, :integer
+    field :interval_max, :integer
     belongs_to :event, NollningScore.Event
     has_many :scores, NollningScore.Score
 
@@ -16,8 +20,8 @@ defmodule NollningScore.Category do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :min, :max, :event_id])
-    |> validate_required([:name, :min, :max, :event_id])
+    |> cast(params, [:name, :interval_min, :interval_max, :event_id, :type, :absolute, :global, :weight])
+    |> validate_required([:name, :event_id])
     |> foreign_key_constraint(:event_id)
     |> unique_constraint(:name, name: :categories_name_event_id_index)
   end
