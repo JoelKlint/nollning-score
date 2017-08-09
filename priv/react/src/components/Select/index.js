@@ -9,7 +9,8 @@ const stateful = connect(state => {
             R.pathOr([], ['entities', 'scores', ]),
             R.values(),
             R.filter(score => R.contains(score.category, state.entities.events[state.current.event].categories))
-        )(state)
+        )(state),
+        guilds: R.values(state.entities.guilds)
     }
 })
 
