@@ -3,7 +3,8 @@ import './ScoreCategories.css'
 import { connect } from 'react-redux'
 import R from 'ramda'
 
-import Question from './Question'
+import Slider from './ScoreType/Slider/Slider'
+import Select from './ScoreType/Select/Select'
 
 class ScoreCategories extends React.Component {
 
@@ -12,9 +13,13 @@ class ScoreCategories extends React.Component {
             <div className="ScoreCategories_Base">
                 <div>
                     {this.props.categories.map((c, i) => {
-                        return (
-                            <Question key={i} question={c} />
-                        )
+                        switch (c.type) {
+                            case 'interval': return (<Slider key={i} question={c} />); break;
+                            case 'integer': return (<p>Not implemented yet</p>); break;
+                            case 'boolean': return (<p>Not implemented yet</p>); break;;
+                            case 'guild': return (<Select key={i} question={c} />); break;
+                            default: return;
+                        }
                     })}
                 </div>
 

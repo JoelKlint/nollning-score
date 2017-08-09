@@ -1,0 +1,40 @@
+.Select_Base {
+    margin: 20px;
+}
+
+.Select_Select {
+    font-size: 1.5em;
+    margin-top: 55px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.Select_Select {
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+}
+
+.Select_GivenScore {
+    font-size: 1.5em;
+}
+
+.Select_SelectWrapper {
+    width: 70%;
+}
+
+.Select_Saved {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    transform: translateY(3px);
+    background-color: green;
+}
+
+.Select_NotSaved {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    transform: translateY(3px);
+    background-color: red;
+}

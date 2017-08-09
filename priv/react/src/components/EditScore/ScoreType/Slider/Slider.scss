@@ -1,29 +1,29 @@
-.Question_Base {
+.Slider_Base {
     margin: 20px;
 }
 
-.Question_Question {
+.Slider_Slider {
     font-size: 1.5em;
     margin-top: 55px;
     margin-bottom: 5px;
     text-align: center;
 }
 
-.Question_Slider {
+.Slider_Slider {
     display: flex;
     justify-content: space-around;
     align-items: baseline;
 }
 
-.Question_GivenScore {
+.Slider_GivenScore {
     font-size: 1.5em;
 }
 
-.Question_SliderWrapper {
+.Slider_SliderWrapper {
     width: 70%;
 }
 
-.Question_Saved {
+.Slider_Saved {
     width: 20px;
     height: 20px;
     border-radius: 20px;
@@ -31,7 +31,7 @@
     background-color: green;
 }
 
-.Question_NotSaved {
+.Slider_NotSaved {
     width: 20px;
     height: 20px;
     border-radius: 20px;

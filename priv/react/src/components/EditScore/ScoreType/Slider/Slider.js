@@ -1,13 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import './Question.css'
-import Slider from 'rc-slider/lib/Slider';
+import './Slider.css'
+import RcSlider from 'rc-slider/lib/Slider';
 import 'rc-slider/assets/index.css';
 import { Actions } from 'jumpstate'
 
 import R from 'ramda';
 
-class Question extends React.Component {
+class Slider extends React.Component {
 
     constructor(props) {
         super(props)
@@ -61,14 +61,14 @@ class Question extends React.Component {
         let score = R.find(score => score.guild === this.props.currentGuildId && score.category === category.id)(this.props.scores) || {}
 
         return (
-            <div className="Question_Base">
-                <div className="Question_Question">
+            <div className="Slider_Base">
+                <div className="Slider_Slider">
                     {category.name}
                 </div>
-                <div className="Question_Slider">
-                    <div className="Question_GivenScore">{R.pathOr('-', ['value'], score)}</div>
-                    <div className="Question_SliderWrapper">
-                        <Slider 
+                <div className="Slider_Slider">
+                    <div className="Slider_GivenScore">{R.pathOr('-', ['value'], score)}</div>
+                    <div className="Slider_SliderWrapper">
+                        <RcSlider 
                             onChange={(e) => this.setValue(e)}
                             min={category.interval_min}
                             max={category.interval_max}
@@ -80,9 +80,9 @@ class Question extends React.Component {
                         />
                     </div>
                     {this.state.saved ? 
-                        <div className="Question_Saved"></div>
+                        <div className="Slider_Saved"></div>
                         :
-                        <div className="Question_NotSaved"></div>
+                        <div className="Slider_NotSaved"></div>
                     }
                 </div>
             </div>
@@ -101,4 +101,4 @@ const Connect = connect(state => {
     }
 })
 
-export default Connect(Question)
+export default Connect(Slider)
