@@ -15,41 +15,11 @@ class Slider extends Component {
     }
 
     setValue(val) {
-
-        // Update ui
-        // this.setState({
-        //     value: val,
-        //     saved: false,
-        // })
-
         Actions.setScoreForCategoryAndGuild({
             category_id: this.props.question.id, 
             guild_id: this.props.currentGuildId, 
             value: val
         })
-
-        // Inform server
-        // fetch(`http://192.168.0.100:4000/api/categories/${this.props.question.id}/scores`, 
-        // {
-        //     method: 'post', 
-        //     body: JSON.stringify({
-        //         score: {
-        //             value: val,
-        //             guild_id: this.props.currentGuildId
-        //         }
-        //     }),
-        //     headers: new Headers({
-        //         'Content-Type': 'application/json'
-        //     })
-        // })
-        // .then(res => res.json())
-        // .then(res => {
-        //     // Update ui
-        //     this.setState({
-        //         saved: true
-        //     })
-        // })
-        // .catch(err => console.error(err))
     }
 
     render() {
@@ -60,12 +30,9 @@ class Slider extends Component {
 
         return (
             <div className="Slider_Base">
-                <div className="Slider_Slider">
-                    {category.name}
-                </div>
-                <div className="Slider_Slider">
-                    <div className="Slider_GivenScore">{R.pathOr('-', ['value'], score)}</div>
-                    <div className="Slider_SliderWrapper">
+                <div className="Slider">
+                    <div className="GivenScore">{R.pathOr('-', ['value'], score)}</div>
+                    <div className="SliderWrapper">
                         <RcSlider 
                             onChange={(e) => this.setValue(e)}
                             min={category.interval_min}
@@ -78,9 +45,9 @@ class Slider extends Component {
                         />
                     </div>
                     {this.state.saved ? 
-                        <div className="Slider_Saved"></div>
+                        <div className="Saved"></div>
                         :
-                        <div className="Slider_NotSaved"></div>
+                        <div className="NotSaved"></div>
                     }
                 </div>
             </div>

@@ -1,16 +1,24 @@
-.ScoreCategories_Question {
-    margin-bottom: 100px;
-}
-
-.ScoreCategories_ReviewButton {
-    width: 80px;
-    height: 40px;
-    border: 1px solid black;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.ScoreCategories_Base {
+    margin-left: 20px;
+    margin-right: 20px;
+    .Category {
+        margin-bottom: 40px;
+        .Name {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+    }
+    .ReviewButton {
+        width: 80px;
+        height: 40px;
+        border: 1px solid black;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
