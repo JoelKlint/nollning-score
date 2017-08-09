@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './CategoryReview.css'
-import { connect } from 'react-redux'
 import R from 'ramda'
 
-import CategoryReviewEntry from './CategoryReviewEntry'
+import CategoryReviewEntry from '../CategoryReviewEntry'
 
-class CategoryReview extends React.Component {
+class CategoryReview extends Component {
 
     render() {
         const category = this.props.category
@@ -36,18 +35,4 @@ class CategoryReview extends React.Component {
     }
 }
 
-const Connect = connect(state => {
-    return {
-        guilds: R.pipe(
-            R.pathOr([], ['entities', 'guilds']),
-            R.values()
-        )(state),
-
-        scores: R.pipe(
-            R.pathOr([], ['entities', 'scores']),
-            R.values()
-        )(state)
-    }
-})
-
-export default Connect(CategoryReview)
+export default CategoryReview

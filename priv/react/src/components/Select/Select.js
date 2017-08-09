@@ -1,13 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { connect } from 'react-redux'
 import './Select.css'
 import { Actions } from 'jumpstate'
-
 import R from 'ramda';
 
-class Select extends React.Component {
+class Select extends Component {
 
     constructor(props) {
         super(props)
@@ -68,15 +66,4 @@ class Select extends React.Component {
     }
 }
 
-const Connect = connect(state => {
-    return {
-        currentGuildId: state.current.guild,
-        scores: R.pipe(     // Contains all scores for current event
-            R.pathOr([], ['entities', 'scores', ]),
-            R.values(),
-            R.filter(score => R.contains(score.category, state.entities.events[state.current.event].categories))
-        )(state)
-    }
-})
-
-export default Connect(Select)
+export default Select

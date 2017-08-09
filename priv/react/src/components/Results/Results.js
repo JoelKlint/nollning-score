@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './Results.css'
-import { connect } from 'react-redux'
-import { Actions } from 'jumpstate'
 import R from 'ramda'
+import { Actions } from 'jumpstate'
 
-class Results extends React.Component {
+class Results extends Component {
 
     constructor(props) {
         super(props)
@@ -27,21 +26,4 @@ class Results extends React.Component {
     }
 }
 
-const Connect = connect(state => {
-    return {
-        currentEventId: state.current.event,
-        results: R.pipe(
-            R.pathOr({}, ['entities', 'results']),
-            R.values(),
-            R.filter(r => r.event == state. current.event),
-            R.map(r => {
-                r.guild = state.entities.guilds[r.guild]
-                return r
-            }),
-            R.sortBy( R.prop('result') ),
-            R.reverse(),
-        )(state)
-    }
-})
-
-export default Connect(Results)
+export default Results

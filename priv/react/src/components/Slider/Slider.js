@@ -1,13 +1,11 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from 'react'
 import './Slider.css'
 import RcSlider from 'rc-slider/lib/Slider';
 import 'rc-slider/assets/index.css';
 import { Actions } from 'jumpstate'
-
 import R from 'ramda';
 
-class Slider extends React.Component {
+class Slider extends Component {
 
     constructor(props) {
         super(props)
@@ -90,15 +88,4 @@ class Slider extends React.Component {
     }
 }
 
-const Connect = connect(state => {
-    return {
-        currentGuildId: state.current.guild,
-        scores: R.pipe(     // Contains all scores for current event
-            R.pathOr([], ['entities', 'scores', ]),
-            R.values(),
-            R.filter(score => R.contains(score.category, state.entities.events[state.current.event].categories))
-        )(state)
-    }
-})
-
-export default Connect(Slider)
+export default Slider

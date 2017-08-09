@@ -14,7 +14,7 @@ import './index.css';
 
 import State from './state/State'
 
-import NotFound from './NotFound'
+import NotFound from './components/NotFound'
 
 import EventPicker from './components/EventPicker'
 import EventDetail from './components/EventDetail'

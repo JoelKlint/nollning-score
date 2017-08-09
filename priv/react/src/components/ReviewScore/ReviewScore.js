@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './ReviewScore.css'
-import { connect } from 'react-redux'
 import R from 'ramda'
 
-import CategoryReview from './CategoryReview'
+import CategoryReview from '../CategoryReview'
 
-class ReviewScore extends React.Component {
+class ReviewScore extends Component {
 
     render() {
         const { currentEventId } = this.props
@@ -31,15 +30,4 @@ class ReviewScore extends React.Component {
     }
 }
 
-const Connect = connect(state => {
-    return {
-        currentEventId: state.current.event,
-        categories: R.pipe(
-            R.pathOr({}, ['entities', 'categories']),
-            R.pick( R.pathOr([], ['entities', 'events', state.current.event, 'categories'], state) ),
-            R.values()
-        )(state)
-    }
-})
-
-export default Connect(ReviewScore)
+export default ReviewScore

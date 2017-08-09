@@ -1,12 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './GuildPicker.css'
 import { Actions } from 'jumpstate'
-import { connect } from 'react-redux'
-import R from 'ramda'
 
-import GuildPickerButton from './GuildPickerButton'
+import GuildPickerButton from '../GuildPickerButton'
 
-class GuildPicker extends React.Component {
+class GuildPicker extends Component {
 
     componentWillMount() {
         Actions.setCurrentGuild(1)
@@ -35,10 +33,4 @@ class GuildPicker extends React.Component {
     }
 }
 
-const Connect = connect(state => {
-    return {
-        guilds: R.values(state.entities.guilds),
-        currentGuild: R.pathOr({}, ['entities', 'guilds', state.current.guild], state),
-    }
-})
-export default Connect(GuildPicker)
+export default GuildPicker

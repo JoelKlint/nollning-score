@@ -1,16 +1,14 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './EventDetail.css'
 import { Actions } from 'jumpstate'
-import { connect } from 'react-redux'
-import R from 'ramda'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
-import EditScore from './EditScore/EditScore'
-import ReviewScore from './ReviewScore/ReviewScore'
-import Results from './Results/Results'
+import EditScore from '../EditScore'
+import ReviewScore from '../ReviewScore'
+import Results from '../Results'
 import NotFound from '../NotFound'
 
-class EventDetail extends React.Component {
+class EventDetail extends Component {
 
     // Which life cycle method should be used?
     componentWillMount() {
@@ -41,10 +39,4 @@ class EventDetail extends React.Component {
     }
 }
 
-const Connect = connect(state => {
-    return {
-        event: R.pathOr({}, ['entities', 'events', state.current.event], state)
-    }
-})
-
-export default Connect(EventDetail)
+export default EventDetail

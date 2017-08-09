@@ -1,12 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './EventPicker.css'
 import { Actions } from 'jumpstate'
-import { connect } from 'react-redux'
-import R from 'ramda'
 
-import EventPickerEntry from './EventPickerEntry'
+import EventPickerEntry from '../EventPickerEntry'
 
-class EventPicker extends React.Component {
+class EventPicker extends Component {
 
     componentDidMount() {
         Actions.getAllEvents()
@@ -37,10 +35,4 @@ class EventPicker extends React.Component {
     }
 }
 
-const Connect = connect(state => {
-    return {
-        events: R.values(state.entities.events)
-    }
-})
-
-export default Connect(EventPicker)
+export default EventPicker

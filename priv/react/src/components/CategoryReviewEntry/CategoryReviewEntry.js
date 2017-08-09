@@ -1,8 +1,7 @@
 import React from 'react'
 import './CategoryReviewEntry.css'
-import { connect } from 'react-redux'
 import R from 'ramda'
-import Slider from 'rc-slider/lib/Slider';
+import RcSlider from 'rc-slider/lib/Slider';
 import 'rc-slider/assets/index.css';
 
 class CategoryReviewEntry extends React.Component {
@@ -18,7 +17,7 @@ class CategoryReviewEntry extends React.Component {
                 </div>
 
                 <div className="CategoryReviewEntry_Slider">
-                    <Slider 
+                    <RcSlider 
                         disabled={true}
                         min={category.interval_min}
                         max={category.interval_max}
@@ -35,9 +34,4 @@ class CategoryReviewEntry extends React.Component {
     }
 }
 
-const Connect = connect(state => {
-    return {
-    }
-})
-
-export default Connect(CategoryReviewEntry)
+export default CategoryReviewEntry

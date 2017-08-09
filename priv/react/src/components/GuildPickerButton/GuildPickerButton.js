@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './GuildPickerButton.css'
 
-export default class GuildPickerButton extends React.Component {
+class GuildPickerButton extends Component {
     render() {
 
         const style = {
@@ -22,3 +22,5 @@ export default class GuildPickerButton extends React.Component {
         )
     }
 }
+
+export default GuildPickerButton

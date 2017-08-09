@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './EventPickerEntry.css'
 
-export default class EventPickerEntry extends React.Component {
+class EventPickerEntry extends Component {
     render() {
         return (
             <div 
@@ -13,3 +13,5 @@ export default class EventPickerEntry extends React.Component {
         )
     }
 }
+
+export default EventPickerEntry
