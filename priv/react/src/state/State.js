@@ -2,7 +2,7 @@ import { State, Effect, Actions } from 'jumpstate'
 import R from 'ramda'
 import { schema, normalize } from 'normalizr'
 
-const API_BASE_URL = "http://192.168.0.194:4000"
+const API_BASE_URL = process.env.NOLLNING_SCORE_BACKEND_URL || "http://localhost:4000"
 
 export default State({
 
