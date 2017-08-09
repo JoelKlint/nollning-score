@@ -4,6 +4,7 @@ import './ScoreCategories.css'
 import Slider from '../Slider'
 import Select from '../Select'
 import IntegerInput from '../IntegerInput'
+import BooleanInput from '../BooleanInput'
 
 class ScoreCategories extends Component {
 
@@ -19,7 +20,7 @@ class ScoreCategories extends Component {
                     input = <IntegerInput question={c} />
                     break 
                 case 'boolean': 
-                    input = <p>Not implemented yet</p>
+                    input = <BooleanInput question={c} />
                     break
                 case 'guild': 
                     input = <Select question={c} />
