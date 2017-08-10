@@ -2,11 +2,17 @@ defmodule NollningScore.CategoryView do
   use NollningScore.Web, :view
 
   def render("index.json", %{categories: categories}) do
-    %{data: render_many(categories, NollningScore.CategoryView, "category.json")}
+    %{
+      type: :categories,
+      data: render_many(categories, NollningScore.CategoryView, "category.json")
+    }
   end
 
   def render("show.json", %{category: category}) do
-    %{data: render_one(category, NollningScore.CategoryView, "category.json")}
+    %{
+      type: :category,
+      data: render_one(category, NollningScore.CategoryView, "category.json")
+    }
   end
 
   def render("category.json", %{category: category}) do

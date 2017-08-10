@@ -2,11 +2,17 @@ defmodule NollningScore.GuildView do
   use NollningScore.Web, :view
 
   def render("index.json", %{guilds: guilds}) do
-    %{data: render_many(guilds, NollningScore.GuildView, "guild.json")}
+    %{
+      type: :guilds,
+      data: render_many(guilds, NollningScore.GuildView, "guild.json")
+    }
   end
 
   def render("show.json", %{guild: guild}) do
-    %{data: render_one(guild, NollningScore.GuildView, "guild.json")}
+    %{
+      type: :guild,
+      data: render_one(guild, NollningScore.GuildView, "guild.json")
+    }
   end
 
   def render("guild.json", %{guild: guild}) do

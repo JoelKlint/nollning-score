@@ -30,6 +30,10 @@ defmodule NollningScore.Support.View do
       %Ecto.Association.NotLoaded{} -> []
       _ -> [:categories]
     end
+    relations = relations ++ case Map.get(object, :selected_guild) do
+      %Ecto.Association.NotLoaded{} -> []
+      _ -> [:selected_guild]
+    end
 
     # Populate relations
     relations = relations
@@ -61,6 +65,8 @@ defmodule NollningScore.Support.View do
         %{:categories => render_many(object.categories, NollningScore.CategoryView, "category.json")}
       :guild ->
         %{:guild => render_one(object.guild, NollningScore.GuildView, "guild.json")}
+      :selected_guild ->
+        %{:selected_guild => render_one(object.selected_guild, NollningScore.GuildView, "guild.json")}
       _ ->
         %{}
     end

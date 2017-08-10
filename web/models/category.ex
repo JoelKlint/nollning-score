@@ -11,6 +11,7 @@ defmodule NollningScore.Category do
     field :interval_max, :integer
     belongs_to :event, NollningScore.Event
     has_many :scores, NollningScore.Score
+    belongs_to :selected_guild, NollningScore.Guild
 
     timestamps()
   end
@@ -20,7 +21,7 @@ defmodule NollningScore.Category do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :interval_min, :interval_max, :event_id, :type, :absolute, :global, :weight])
+    |> cast(params, [:name, :interval_min, :interval_max, :event_id, :type, :absolute, :global, :weight, :selected_guild_id])
     |> validate_required([:name, :event_id])
     |> foreign_key_constraint(:event_id)
     |> unique_constraint(:name, name: :categories_name_event_id_index)

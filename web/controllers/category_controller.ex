@@ -10,7 +10,7 @@ defmodule NollningScore.CategoryController do
       where: c.event_id == type(^event_id, :integer)
     )
     |> Repo.all()
-    |> Repo.preload(:event)
+    |> Repo.preload([:event, :selected_guild])
 
     render(conn, "index.json", categories: categories)
   end

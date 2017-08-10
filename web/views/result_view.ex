@@ -2,7 +2,10 @@ defmodule NollningScore.ResultView do
     use NollningScore.Web, :view
 
     def render("show.json", %{results: results}) do
-      %{data: render_many(results, NollningScore.ResultView, "result.json")}
+      %{
+        type: :results,
+        data: render_many(results, NollningScore.ResultView, "result.json")
+      }
     end
 
     def render("result.json", %{result: result}) do
