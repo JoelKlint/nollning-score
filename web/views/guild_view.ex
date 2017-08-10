@@ -10,10 +10,9 @@ defmodule NollningScore.GuildView do
   end
 
   def render("guild.json", %{guild: guild}) do
-    %{
-      id: guild.id,
-      name: guild.name,
-      color: guild.color
-    }
+    # Define own parameters to keep
+    base = [:id, :name, :color]
+
+    NollningScore.Support.View.render_object(guild, base)
   end
 end

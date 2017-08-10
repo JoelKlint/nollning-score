@@ -5,7 +5,7 @@ defmodule NollningScore.EventController do
 
   def index(conn, _params) do
     events = Repo.all(Event) |> Repo.preload(:categories)
-    render(conn, "index.json", events: events, relations: [:categories])
+    render(conn, "index.json", events: events)
   end
 
   # def create(conn, %{"event" => event_params}) do
@@ -27,13 +27,12 @@ defmodule NollningScore.EventController do
   def show(conn, %{"id" => id}) do
     case Repo.get(Event, id) do
       nil ->
-        conn 
+        conn
         |> put_status(404)
-        |> render(NollningScore.ErrorView, "404.json") 
+        |> render(NollningScore.ErrorView, "404.json")
       record ->
-        record = Repo.preload(record, :categories)
-        conn 
-        |> render("show.json", event: record, relations: [:categories])
+        record = record |> Repo.preload(:categories)
+        conn |> render("show.json", event: record)
     end
   end
 

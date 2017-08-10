@@ -6,13 +6,13 @@ defmodule NollningScore.CategoryController do
   def index(conn, %{"event_id" => event_id}) do
 
     categories = from(
-      c in Category, 
+      c in Category,
       where: c.event_id == type(^event_id, :integer)
     )
-    |> Repo.all() 
-    |> Repo.preload([:event])
+    |> Repo.all()
+    |> Repo.preload(:event)
 
-    render(conn, "index.json", categories: categories, relations: [:event])
+    render(conn, "index.json", categories: categories)
   end
 
   # def create(conn, %{"category" => category_params}) do
