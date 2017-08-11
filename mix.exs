@@ -44,7 +44,10 @@ defmodule NollningScore.Mixfile do
       {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
       {:cors_plug, "~> 1.2"},
       {:plug_static_index_html, "~> 0.1.2"},
-      {:ecto_enum, "~> 1.0"}
+      {:ecto_enum, "~> 1.0"},
+      {:comeonin, "~> 4.0"},
+      {:bcrypt_elixir, "~> 0.12"},
+      {:guardian, "~> 0.14"}
     ]
   end
 

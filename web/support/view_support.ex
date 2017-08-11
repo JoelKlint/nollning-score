@@ -34,6 +34,10 @@ defmodule NollningScore.Support.View do
       %Ecto.Association.NotLoaded{} -> []
       _ -> [:selected_guild]
     end
+    relations = relations ++ case Map.get(object, :user) do
+      %Ecto.Association.NotLoaded{} -> []
+      _ -> [:user]
+    end
 
     # Populate relations
     relations = relations
@@ -67,6 +71,8 @@ defmodule NollningScore.Support.View do
         %{:guild => render_one(object.guild, NollningScore.GuildView, "guild.json")}
       :selected_guild ->
         %{:selected_guild => render_one(object.selected_guild, NollningScore.GuildView, "guild.json")}
+      :user ->
+        %{:user => render_one(object.user, NollningScore.UserView, "user.json")}
       _ ->
         %{}
     end

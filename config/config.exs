@@ -22,6 +22,17 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :guardian, Guardian,
+  allowed_algos: ["HS512"], # optional
+  verify_module: Guardian.JWT,  # optional
+  issuer: "nollning_score",
+  ttl: { 30, :days },
+  allowed_drift: 2000,
+  verify_issuer: true, # optional
+  # TODO: Replace secret_key with ENVIRONMENT VARIABLE
+  secret_key: "vbk9Zrn5w1D7U2zUPey37NX9DZygy1lFXMSyLCYu/VorzxFzal7dcwsqp9UU6JZC",
+  serializer: NollningScore.GuardianSerializer
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

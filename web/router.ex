@@ -13,6 +13,12 @@ defmodule NollningScore.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :api_auth do
+    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    plug Guardian.Plug.LoadResource
+    plug Guardian.Plug.EnsureAuthenticated, handler: NollningScore.SessionController
+  end
+
   scope "/", NollningScore do
     pipe_through :browser # Use the default browser stack
 
@@ -21,7 +27,7 @@ defmodule NollningScore.Router do
 
   # Other scopes may use custom stacks.
   scope "/api", NollningScore do
-    pipe_through :api
+    pipe_through [:api, :api_auth]
 
     resources "/events", EventController, only: [:index, :show] do
       resources "/scores", ScoreController, only: [:index]
@@ -34,6 +40,8 @@ defmodule NollningScore.Router do
     end
 
     resources "/guilds", GuildController, only: [:index]
+
+    post "/login", SessionController, :create
 
   end
 end
