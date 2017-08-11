@@ -1,3 +1,6 @@
+require EctoEnum
+EctoEnum.defenum RoleEnum, basic: 0, admin: 1
+
 defmodule NollningScore.User do
   use NollningScore.Web, :model
 
@@ -7,6 +10,7 @@ defmodule NollningScore.User do
     field :username, :string
     field :hashed_password, :string
     field :password, :string, virtual: true
+    field :role, RoleEnum
 
     timestamps()
   end

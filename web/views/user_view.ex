@@ -10,7 +10,7 @@ defmodule NollningScore.UserView do
 
   def render("user.json", %{user: user}) do
     # Define own parameters to keep
-    base = [:id, :username]
+    base = [:id, :username, :role]
 
     NollningScore.Support.View.render_object(user, base)
   end
