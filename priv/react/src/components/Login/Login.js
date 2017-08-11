@@ -41,14 +41,17 @@ class Login extends Component {
         <TextField
           hintText="Username"
           value={username}
+          autoFocus
           onChange={(event, val) => this.setState({username: val})}
+          onKeyPress={event => event.key === 'Enter' ? this.login() : null}
         />
         <br/>
         <TextField
           hintText="Lösenord"
           value={password}
-          onChange={(event, val) => this.setState({password: val})}
           type='text'
+          onChange={(event, val) => this.setState({password: val})}
+          onKeyPress={event => event.key === 'Enter' ? this.login() : null}
         />
         <br/>
         <RaisedButton

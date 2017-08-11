@@ -177,31 +177,51 @@ const interpretApiResponse = (res) => {
 }
 
 Effect('getAllEvents', () => {
-  return fetch(`${API_BASE_URL}/api/events`)
+  return fetch(`${API_BASE_URL}/api/events`, {
+    headers: new Headers({
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    })
+  })
   .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
 
 Effect('getEvent', (event_id) => {
-  return fetch(`${API_BASE_URL}/api/events/${event_id}`)
+  return fetch(`${API_BASE_URL}/api/events/${event_id}`, {
+    headers: new Headers({
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    })
+  })
   .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
 
 Effect('getAllGuilds', () => {
-  return fetch(`${API_BASE_URL}/api/guilds`)
+  return fetch(`${API_BASE_URL}/api/guilds`, {
+    headers: new Headers({
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    })
+  })
   .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
 
 Effect('getAllCategoriesForEvent', (event_id) => {
-  return fetch(`${API_BASE_URL}/api/events/${event_id}/categories`)
+  return fetch(`${API_BASE_URL}/api/events/${event_id}/categories`, {
+    headers: new Headers({
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    })
+  })
   .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
 
 Effect('getAllScoresForEvent', (event_id) => {
-  return fetch(`${API_BASE_URL}/api/events/${event_id}/scores`)
+  return fetch(`${API_BASE_URL}/api/events/${event_id}/scores`, {
+    headers: new Headers({
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    })
+  })
   .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
@@ -217,7 +237,8 @@ Effect('setScoreForCategoryAndGuild', (payload) => {
       }
     }),
     headers: new Headers({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     })
   })
   .then(res => interpretApiResponse(res))
@@ -233,7 +254,8 @@ Effect('selectGuildWonCategory', (payload) => {
       }
     }),
     headers: new Headers({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     })
   })
   .then(res => interpretApiResponse(res))
@@ -241,7 +263,11 @@ Effect('selectGuildWonCategory', (payload) => {
 })
 
 Effect('getResultsForEvent', (event_id) => {
-  return fetch(`${API_BASE_URL}/api/events/${event_id}/results`)
+  return fetch(`${API_BASE_URL}/api/events/${event_id}/results`, {
+    headers: new Headers({
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    })
+  })
   .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
@@ -254,7 +280,8 @@ Effect('login', ({username, password}) => {
       password: password
     }),
     headers: new Headers({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     })
   })
   .then(res => interpretApiResponse(res))

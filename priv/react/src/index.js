@@ -38,8 +38,8 @@ ReactDOM.render(
         <Switch>
           <Redirect exact from='/' to='/events' />
           <Route exact path='/login' component={Login} />
-          <Route exact path='/events' component={EventPicker} />
-          <Route path='/events/:event_id' component={EventDetail} />
+          <PrivateRoute exact path='/events' component={EventPicker} />
+          <PrivateRoute path='/events/:event_id' component={EventDetail} />
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
