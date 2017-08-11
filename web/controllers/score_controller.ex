@@ -6,21 +6,26 @@ defmodule NollningScore.ScoreController do
 
   def index(conn, %{"event_id" => event_id}) do
 
+    user = Guardian.Plug.current_resource(conn)
+
     score = from(
       s in Score,
       join: c in Category, on: s.category_id == c.id,
       where: c.event_id == ^event_id,
+      where: s.user_id == ^user.id
     )
     |> Repo.all()
-    |> Repo.preload([:category, :guild])
+    |> Repo.preload([:category, :guild, :user])
 
     conn |> render("index.json", score: score, relations: [:category, :guild])
   end
 
   def create(conn, %{"score" => score_params, "category_id" => category_id}) do
+    user = Guardian.Plug.current_resource(conn)
     params = score_params
     |> Map.take(["value", "guild_id"])
     |> Map.put("category_id", category_id)
+    |> Map.put("user_id", user.id)
 
     category = Repo.get!(Category, category_id)
     case category.type do
@@ -39,7 +44,12 @@ defmodule NollningScore.ScoreController do
 
       # Handle an interval, integer or boolean kind of category
       type when type in [:interval, :integer, :boolean] ->
-        result = case Repo.get_by(Score, category_id: params["category_id"], guild_id: params["guild_id"]) do
+        score = Repo.get_by(Score,
+          category_id: params["category_id"],
+          guild_id: params["guild_id"],
+          user_id: user.id
+        )
+        result = case score do
           nil -> %Score{}
           score -> score
         end
@@ -47,7 +57,7 @@ defmodule NollningScore.ScoreController do
         |> Repo.insert_or_update
         case result do
           {:ok, score} ->
-            score = Repo.preload(score, [:category, :guild])
+            score = Repo.preload(score, [:category, :guild, :user])
             conn
             |> put_status(201)
             |> render("show.json", score: score)
@@ -57,6 +67,7 @@ defmodule NollningScore.ScoreController do
             |> render(NollningScore.ChangesetView, "error.json", changeset: changeset)
         end
 
+      # Handle undefined categories
       _ ->
         %{error: "No such category"}
     end

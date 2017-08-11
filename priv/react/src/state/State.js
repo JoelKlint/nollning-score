@@ -31,8 +31,8 @@ export default State({
     return R.assocPath(['current', 'guild'], Number(guild_id), state)
   },
 
-  setCurrentUser(state, user) {
-    return R.assocPath(['current', 'user'], user, state)
+  setCurrentUser(state, user_id) {
+    return R.assocPath(['current', 'user'], user_id, state)
   }
 
 })
@@ -51,13 +51,19 @@ const addApiResponseToState = (res) => {
   return new Promise((resolve, reject) => {
     let normalized = {}
 
-    let category, event, guild, score, result
+    let category, event, guild, score, result, user
 
     switch(res.type) {
 
       case "login":
+        // Store token in local localStorage so it can be retrieved later
         localStorage.setItem('jwt', res.data.jwt)
-        Actions.setCurrentUser(res.data.user)
+
+        user = new schema.Entity('users')
+        normalized = normalize(res.data, user)
+
+        Actions.updateEntities(normalize.entities)
+        Actions.setCurrentUser(res.data.user.id)
         break;
 
       case "events":
@@ -114,9 +120,11 @@ const addApiResponseToState = (res) => {
       case "score":
         guild = new schema.Entity('guilds')
         category = new schema.Entity('categories')
+        user = new schema.Entity('users')
         score = new schema.Entity('scores', {
           category: category,
           guild: guild,
+          user: user
         })
 
         normalized = normalize(res.data, score)
@@ -126,9 +134,11 @@ const addApiResponseToState = (res) => {
       case "scores":
         guild = new schema.Entity('guilds')
         category = new schema.Entity('categories')
+        user = new schema.Entity('users')
         score = new schema.Entity('scores', {
             category: category,
             guild: guild,
+            user: user
         })
 
         normalized = normalize(res.data, [score])
