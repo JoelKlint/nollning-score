@@ -17,8 +17,17 @@ defmodule NollningScore.User do
 
   def new_changeset(%NollningScore.User{}, params \\ %{}) do
     %NollningScore.User{}
-    |> cast(params, [:username, :password])
+    |> cast(params, [:username, :password, :role])
     |> validate_required([:username, :password])
+    |> unique_constraint(:email)
+    |> validate_length(:password, min: 6)
+    |> hash_password(params)
+  end
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, [:username, :password, :role])
+    |> validate_required([:username, :role])
     |> unique_constraint(:email)
     |> validate_length(:password, min: 6)
     |> hash_password(params)
