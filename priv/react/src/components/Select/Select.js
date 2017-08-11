@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import './Select.css'
-import R from 'ramda'
 import { Actions } from 'jumpstate'
 
 class Select extends Component {

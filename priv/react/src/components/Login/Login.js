@@ -2,46 +2,63 @@ import React, { Component } from 'react'
 import './Login.css'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { Actions } from 'jumpstate'
+import { Redirect } from 'react-router-dom'
 
 class Login extends Component {
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            guild: '',
-            password: ''
-        }
+  constructor(props) {
+    super(props)
+    this.state = {
+      username: '',
+      password: '',
+      redirectToReferrer: false
+    }
+  }
+
+  login() {
+    const { username, password } = this.state
+    Actions.login({username: username, password: password})
+    .then(() => this.setState({redirectToReferrer: true}))
+    .catch(err => alert('Unauthenticated'))
+  }
+
+  render() {
+    const { username, password, redirectToReferrer } = this.state
+
+    // Url that redirected here
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+
+    if(redirectToReferrer) {
+      return (
+        <Redirect to={from} />
+      )
     }
 
-    login() {
-        alert(`Logging in with parameters\n Guild: ${this.state.guild}\n Password: ${this.state.password}`)
-    }
-
-    render() {
-        return (
-            <div className="Login_base">
-                <h1>Login</h1>
-                <TextField 
-                    hintText="Sektion" 
-                    value={this.state.guild}
-                    onChange={(event, val) => this.setState({guild: val})}
-                />
-                <br/>
-                <TextField 
-                    hintText="Lösenord" 
-                    value={this.state.password}
-                    onChange={(event, val) => this.setState({password: val})}
-                    type='text'
-                />
-                <br/>
-                <RaisedButton 
-                    label="Login" 
-                    primary 
-                    onTouchTap={() => this.login()}
-                />
-            </div>
-        )
-    }
+    return (
+      <div className="Login_base">
+        <h1>Login</h1>
+        <TextField
+          hintText="Username"
+          value={username}
+          onChange={(event, val) => this.setState({username: val})}
+        />
+        <br/>
+        <TextField
+          hintText="Lösenord"
+          value={password}
+          onChange={(event, val) => this.setState({password: val})}
+          type='text'
+        />
+        <br/>
+        <RaisedButton
+          label="Login"
+          primary
+          onTouchTap={() => this.login()}
+        />
+      </div>
+    )
+  }
 }
 
 export default Login

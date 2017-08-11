@@ -11,6 +11,7 @@ export default State({
     current: {
       event: undefined,
       guild: undefined,
+      user: undefined
     }
   },
 
@@ -26,10 +27,13 @@ export default State({
     return R.assocPath(['current', 'event'], Number(event_id), state)
   },
 
-
   setCurrentGuild(state, guild_id) {
     return R.assocPath(['current', 'guild'], Number(guild_id), state)
   },
+
+  setCurrentUser(state, user) {
+    return R.assocPath(['current', 'user'], user, state)
+  }
 
 })
 
@@ -44,135 +48,166 @@ export default State({
 *
 */
 const addApiResponseToState = (res) => {
-  let normalized = {}
+  return new Promise((resolve, reject) => {
+    let normalized = {}
 
-  let category, event, guild, score, result
+    let category, event, guild, score, result
 
-  switch(res.type) {
+    switch(res.type) {
 
-    case "events":
-      category = new schema.Entity('categories')
-      event = new schema.Entity('events', {
-          categories: [category]
-      })
+      case "login":
+        localStorage.setItem('jwt', res.data.jwt)
+        Actions.setCurrentUser(res.data.user)
+        break;
 
-      normalized = normalize(res.data, [event])
-      break;
+      case "events":
+        category = new schema.Entity('categories')
+        event = new schema.Entity('events', {
+            categories: [category]
+        })
 
-    case "event":
-      category = new schema.Entity('categories')
-      event = new schema.Entity('events', {
-          categories: [category]
-      })
+        normalized = normalize(res.data, [event])
+        Actions.updateEntities(normalized.entities)
+        break;
 
-      normalized = normalize(res.data, event)
-      break;
+      case "event":
+        category = new schema.Entity('categories')
+        event = new schema.Entity('events', {
+            categories: [category]
+        })
 
-    case "guilds":
-      guild = new schema.Entity('guilds')
+        normalized = normalize(res.data, event)
+        Actions.updateEntities(normalized.entities)
+        break;
 
-      normalized = normalize(res.data, [guild])
-      break;
+      case "guilds":
+        guild = new schema.Entity('guilds')
 
-    case "category":
-      event = new schema.Entity('events')
-      guild = new schema.Entity('guild')
-      category = new schema.Entity('categories', {
-          event: event,
-          selected_guild: guild
-      })
+        normalized = normalize(res.data, [guild])
+        Actions.updateEntities(normalized.entities)
+        break;
 
-      normalized = normalize(res.data, category)
-      break;
+      case "category":
+        event = new schema.Entity('events')
+        guild = new schema.Entity('guilds')
+        category = new schema.Entity('categories', {
+            event: event,
+            selected_guild: guild
+        })
 
-    case "categories":
-      event = new schema.Entity('events')
-      guild = new schema.Entity('guild')
-      category = new schema.Entity('categories', {
-          event: event,
-          selected_guild: guild
-      })
+        normalized = normalize(res.data, category)
+        Actions.updateEntities(normalized.entities)
+        break;
 
-      normalized = normalize(res.data, [category])
-      break;
+      case "categories":
+        event = new schema.Entity('events')
+        guild = new schema.Entity('guilds')
+        category = new schema.Entity('categories', {
+            event: event,
+            selected_guild: guild
+        })
 
-    case "score":
-      guild = new schema.Entity('guilds')
-      category = new schema.Entity('categories')
-      score = new schema.Entity('scores', {
-        category: category,
-        guild: guild,
-      })
+        normalized = normalize(res.data, [category])
+        Actions.updateEntities(normalized.entities)
+        break;
 
-      normalized = normalize(res.data, score)
-      break;
-
-    case "scores":
-      guild = new schema.Entity('guilds')
-      category = new schema.Entity('categories')
-      score = new schema.Entity('scores', {
+      case "score":
+        guild = new schema.Entity('guilds')
+        category = new schema.Entity('categories')
+        score = new schema.Entity('scores', {
           category: category,
           guild: guild,
-      })
+        })
 
-      normalized = normalize(res.data, [score])
-      break;
+        normalized = normalize(res.data, score)
+        Actions.updateEntities(normalized.entities)
+        break;
 
-    case "results":
-      guild = new schema.Entity('guilds')
-      event = new schema.Entity('events')
-      result = new schema.Entity('results', {
-          guild: guild,
-          event: event,
-      })
-      normalized = normalize(res.data, [result])
-      break;
+      case "scores":
+        guild = new schema.Entity('guilds')
+        category = new schema.Entity('categories')
+        score = new schema.Entity('scores', {
+            category: category,
+            guild: guild,
+        })
 
-    default:
-      throw new Error("Unknown response type: " + JSON.stringify(res))
+        normalized = normalize(res.data, [score])
+        Actions.updateEntities(normalized.entities)
+        break;
 
-  }
+      case "results":
+        guild = new schema.Entity('guilds')
+        event = new schema.Entity('events')
+        result = new schema.Entity('results', {
+            guild: guild,
+            event: event,
+        })
+        normalized = normalize(res.data, [result])
+        Actions.updateEntities(normalized.entities)
+        break;
 
-  Actions.updateEntities(normalized.entities)
+      default:
+        reject(new Error("Unknown response type: " + JSON.stringify(res)))
+
+    }
+
+    resolve()
+
+  })
+}
+
+const interpretApiResponse = (res) => {
+  return new Promise((resolve, reject) => {
+    switch(res.status) {
+      case 201:
+      case 200:
+        res.json()
+        .then(res => addApiResponseToState(res))
+        .then(() => resolve())
+        break;
+      case 401:
+        reject(new Error(`Unauthenticated`))
+        break;
+      default:
+        reject(new Error(`Recieved unexpected HTTP Status code: ${res.status}`))
+        break;
+    }
+
+  })
 }
 
 Effect('getAllEvents', () => {
-  fetch(`${API_BASE_URL}/api/events`)
-  .then(res => res.json())
-  .then(res => addApiResponseToState(res))
+  return fetch(`${API_BASE_URL}/api/events`)
+  .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
 
 Effect('getEvent', (event_id) => {
-  fetch(`${API_BASE_URL}/api/events/${event_id}`)
-  .then(res => res.json())
-  .then(res => addApiResponseToState(res))
+  return fetch(`${API_BASE_URL}/api/events/${event_id}`)
+  .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
 
 Effect('getAllGuilds', () => {
-  fetch(`${API_BASE_URL}/api/guilds`)
-  .then(res => res.json())
-  .then(res => addApiResponseToState(res))
+  return fetch(`${API_BASE_URL}/api/guilds`)
+  .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
 
 Effect('getAllCategoriesForEvent', (event_id) => {
-  fetch(`${API_BASE_URL}/api/events/${event_id}/categories`)
-  .then(res => res.json())
-  .then(res => addApiResponseToState(res))
+  return fetch(`${API_BASE_URL}/api/events/${event_id}/categories`)
+  .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
 
 Effect('getAllScoresForEvent', (event_id) => {
-  fetch(`${API_BASE_URL}/api/events/${event_id}/scores`)
-  .then(res => res.json())
-  .then(res => addApiResponseToState(res))
+  return fetch(`${API_BASE_URL}/api/events/${event_id}/scores`)
+  .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
 
 Effect('setScoreForCategoryAndGuild', (payload) => {
-  fetch(`${API_BASE_URL}/api/categories/${payload.category_id}/scores`,
+  return fetch(`${API_BASE_URL}/api/categories/${payload.category_id}/scores`,
   {
     method: 'post',
     body: JSON.stringify({
@@ -185,14 +220,12 @@ Effect('setScoreForCategoryAndGuild', (payload) => {
       'Content-Type': 'application/json'
     })
   })
-  .then(res => res.json())
-  .then(res => addApiResponseToState(res))
+  .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
 
 Effect('selectGuildWonCategory', (payload) => {
-  fetch(`${API_BASE_URL}/api/categories/${payload.category_id}/scores`,
-  {
+  return fetch(`${API_BASE_URL}/api/categories/${payload.category_id}/scores`, {
     method: 'post',
     body: JSON.stringify({
       score: {
@@ -203,14 +236,26 @@ Effect('selectGuildWonCategory', (payload) => {
       'Content-Type': 'application/json'
     })
   })
-  .then(res => res.json())
-  .then(res => addApiResponseToState(res))
+  .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
 })
 
 Effect('getResultsForEvent', (event_id) => {
-  fetch(`${API_BASE_URL}/api/events/${event_id}/results`)
-  .then(res => res.json())
-  .then(res => addApiResponseToState(res))
+  return fetch(`${API_BASE_URL}/api/events/${event_id}/results`)
+  .then(res => interpretApiResponse(res))
   .catch(err => console.error(err))
+})
+
+Effect('login', ({username, password}) => {
+  return fetch(`${API_BASE_URL}/api/login`, {
+    method: 'post',
+    body: JSON.stringify({
+      username: username,
+      password: password
+    }),
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    })
+  })
+  .then(res => interpretApiResponse(res))
 })

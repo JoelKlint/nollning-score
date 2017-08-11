@@ -16,7 +16,7 @@ defmodule NollningScore.Router do
   pipeline :api_auth do
     plug Guardian.Plug.VerifyHeader, realm: "Bearer"
     plug Guardian.Plug.LoadResource
-    plug Guardian.Plug.EnsureAuthenticated, handler: NollningScore.SessionController
+    # plug Guardian.Plug.EnsureAuthenticated, handler: NollningScore.SessionController
   end
 
   scope "/", NollningScore do
@@ -40,6 +40,11 @@ defmodule NollningScore.Router do
     end
 
     resources "/guilds", GuildController, only: [:index]
+
+  end
+
+  scope "/api", NollningScore do
+    pipe_through [:api]
 
     post "/login", SessionController, :create
 

@@ -14,6 +14,8 @@ import './index.css';
 
 import State from './state/State'
 
+import PrivateRoute from './components/PrivateRoute'
+
 import NotFound from './components/NotFound'
 
 import EventPicker from './components/EventPicker'
