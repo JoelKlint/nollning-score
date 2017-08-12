@@ -5,45 +5,41 @@ import { Actions } from 'jumpstate'
 
 class IntegerInput extends React.Component {
 
-    setValue(val) {
-        Actions.setScoreForCategoryAndGuild({
-            category_id: this.props.question.id, 
-            guild_id: this.props.currentGuildId, 
-            value: val
-        })
-    }
+  setValue(val) {
+    Actions.setScoreForCategoryAndGuild({
+      category_id: this.props.question.id,
+      guild_id: this.props.currentGuildId,
+      value: val
+    })
+  }
 
-    render() {
-        
-        const category = this.props.question
-        let score = R.find(score => score.guild === this.props.currentGuildId && score.category === category.id)(this.props.scores) || {}
+  render() {
 
-        score.value = score.value || 0
+    const category = this.props.question
+    let score = R.find(score => score.guild === this.props.currentGuildId && score.category === category.id)(this.props.scores) || {}
 
-        return (
-            <div className="IntegerInput_Base">
-                <div 
-                    className="Button"
-                    onTouchTap={() => this.setValue(score.value - 1)}
-                >
-                    -
-                </div>
+    score.value = score.value
 
-                <div
-                    className="Score"
-                >
-                    {score.value}
-                </div>
+    return (
+      <div className="IntegerInput_Base">
+        <div
+          className="Button"
+          onTouchTap={() => this.setValue((score.value || 0) - 1)}
+        >
+          -
+        </div>
 
-                <div 
-                    className="Button"
-                    onTouchTap={() => this.setValue(score.value + 1)}
-                >
-                    +
-                </div>
-            </div>
-        )
-    }
+        <div className="Score">{typeof(score.value) === 'number' ? score.value : "-"}</div>
+
+        <div
+          className="Button"
+          onTouchTap={() => this.setValue((score.value || 0) + 1)}
+        >
+          +
+        </div>
+      </div>
+    )
+  }
 }
 
 export default IntegerInput

@@ -10,36 +10,39 @@ import cross_red from './cross_red.svg'
 
 class BooleanInput extends React.Component {
 
-    setChecked(boolean) {
-        Actions.setScoreForCategoryAndGuild({
-            category_id: this.props.question.id, 
-            guild_id: this.props.currentGuildId, 
-            value: boolean ? 1 : 0
-        })
-    }
+  setChecked(boolean) {
+    Actions.setScoreForCategoryAndGuild({
+      category_id: this.props.question.id,
+      guild_id: this.props.currentGuildId,
+      value: boolean ? 1 : 0
+    })
+  }
 
-    render() {
-        const category = this.props.question
-        let score = R.find(score => score.guild === this.props.currentGuildId && score.category === category.id)(this.props.scores) || {}
-        score.value = score.value || 0
+  render() {
+    const category = this.props.question
+    let score = R.find(score => score.guild === this.props.currentGuildId && score.category === category.id)(this.props.scores) || {}
+    score.value = score.value
 
-        return (
-            <div className="BooleanInput_Base">
-                <img 
-                    className="No"
-                    src={score.value ? cross_gray : cross_red} 
-                    alt="No" 
-                    onClick={() => this.setChecked(false)}
-                />
-                <img 
-                    className="Yes"
-                    src={score.value ? check_green : check_gray} 
-                    alt="Yes" 
-                    onClick={() => this.setChecked(true)}
-                />
-            </div>
-        )
-    }
+    const noSrc = score.value === 0 ? cross_red : cross_gray
+    const yesSrc = score.value === 1 ? check_green : check_gray
+
+    return (
+      <div className="BooleanInput_Base">
+        <img
+          className="No"
+          src={noSrc}
+          alt="No"
+          onClick={() => this.setChecked(false)}
+        />
+        <img
+          className="Yes"
+          src={yesSrc}
+          alt="Yes"
+          onClick={() => this.setChecked(true)}
+        />
+      </div>
+    )
+  }
 }
 
 export default BooleanInput

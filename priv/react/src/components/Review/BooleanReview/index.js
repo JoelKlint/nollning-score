@@ -1,4 +1,4 @@
-import CategoryReview from './CategoryReview'
+import BooleanReview from './BooleanReview'
 import { connect } from 'react-redux'
 import R from 'ramda'
 
@@ -16,4 +16,4 @@ const stateful = connect(state => {
     }
 })
 
-export default stateful(CategoryReview)
+export default stateful(BooleanReview)
