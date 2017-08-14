@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import './ScoreCategories.css'
 
 import Slider from '../Slider'
-import Select from '../Select'
 import IntegerInput from '../IntegerInput'
 import BooleanInput from '../BooleanInput'
 
@@ -31,7 +30,7 @@ class ScoreCategories extends Component {
           input = <BooleanInput question={c} />
           break
         case 'guild':
-          input = <Select question={c} />
+          input = <div>Select input question should not be rendered</div>
           break
         default:
           input = <div>Unacceptable question recieved</div>

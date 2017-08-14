@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import './Select.css'
+import './SelectInput.css'
 import { Actions } from 'jumpstate'
 
-class Select extends Component {
+class SelectInput extends Component {
 
   setSelected(id) {
     Actions.selectGuildWonCategory({
@@ -17,13 +17,14 @@ class Select extends Component {
     const category = this.props.question
 
     return (
-      <div className="Select_Base">
+      <div className="SelectInput_Base">
         <div className="Select">
           <div>
             <SelectField
               floatingLabelText="Sektion"
               value={category.selected_guild}
               onChange={(event, index, id) => this.setSelected(id)}
+              disabled={!this.props.isAdmin}
             >
               {this.props.guilds.map(g => {
                 return (
@@ -42,4 +43,4 @@ class Select extends Component {
   }
 }
 
-export default Select
+export default SelectInput

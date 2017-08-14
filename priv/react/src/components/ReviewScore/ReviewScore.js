@@ -4,6 +4,7 @@ import './ReviewScore.css'
 import IntervalReview from '../Review/IntervalReview'
 import IntegerReview from '../Review/IntegerReview'
 import BooleanReview from '../Review/BooleanReview'
+import SelectInput from '../Input/SelectInput'
 
 class ReviewScore extends Component {
 
@@ -23,7 +24,7 @@ class ReviewScore extends Component {
           input = <BooleanReview category={c} />
           break
         case 'guild':
-          input = <div>Guild category type not yet implemented</div>
+          input = <SelectInput question={c} />
           break
         default:
           input = <div>Unacceptable question recieved</div>
