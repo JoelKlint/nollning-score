@@ -156,6 +156,13 @@ const addApiResponseToState = (res) => {
         Actions.updateEntities(normalized.entities)
         break;
 
+      case "me":
+        user = new schema.Entity('users')
+        normalized = normalize(res.data, user)
+        Actions.updateEntities(normalized.entities)
+        Actions.setCurrentUser(res.data.id)
+        break;
+
       default:
         reject(new Error("Unknown response type: " + JSON.stringify(res)))
 
@@ -295,4 +302,14 @@ Effect('login', ({username, password}) => {
     })
   })
   .then(res => interpretApiResponse(res))
+})
+
+Effect('getCurrentUser', () => {
+  return fetch(`${API_BASE_URL}/api/me`, {
+    headers: new Headers({
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    })
+  })
+  .then(res => interpretApiResponse(res))
+  .catch(err => console.error(err))
 })

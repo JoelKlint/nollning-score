@@ -1,3 +1,10 @@
 import Login from './Login'
+import { connect } from 'react-redux'
 
-export default Login
+const stateful = connect(state => {
+  return {
+    isAuthenticated: !!state.current.user
+  }
+})
+
+export default stateful(Login)

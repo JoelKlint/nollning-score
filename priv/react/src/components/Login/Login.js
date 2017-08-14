@@ -11,25 +11,24 @@ class Login extends Component {
     super(props)
     this.state = {
       username: '',
-      password: '',
-      redirectToReferrer: false
+      password: ''
     }
   }
 
   login() {
     const { username, password } = this.state
     Actions.login({username: username, password: password})
-    .then(() => this.setState({redirectToReferrer: true}))
     .catch(err => alert('Unauthenticated'))
   }
 
   render() {
-    const { username, password, redirectToReferrer } = this.state
+    const { username, password } = this.state
+    const { isAuthenticated } = this.props
 
     // Url that redirected here
     const { from } = this.props.location.state || { from: { pathname: '/' } }
 
-    if(redirectToReferrer) {
+    if(isAuthenticated) {
       return (
         <Redirect to={from} />
       )

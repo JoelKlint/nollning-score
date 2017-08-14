@@ -41,6 +41,8 @@ defmodule NollningScore.Router do
 
     resources "/guilds", GuildController, only: [:index]
 
+    get "/me", UserController, :me
+
   end
 
   scope "/api", NollningScore do
