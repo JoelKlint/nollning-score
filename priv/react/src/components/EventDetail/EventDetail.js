@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom'
 
 import EditScore from '../EditScore'
 import ReviewScore from '../ReviewScore'
-import Results from '../Results'
+import TotalResults from '../TotalResults'
 import NotFound from '../NotFound'
 
 class EventDetail extends Component {
@@ -31,7 +31,7 @@ class EventDetail extends Component {
                 <Switch>
                     <Route path='/events/:event_id/edit' component={EditScore}/>
                     <Route path='/events/:event_id/review' component={ReviewScore} />
-                    <Route path='/events/:event_id/results' component={Results} />
+                    <Route path='/events/:event_id/results' component={TotalResults} />
                     <Route component={NotFound} />
                 </Switch>
             </div>
