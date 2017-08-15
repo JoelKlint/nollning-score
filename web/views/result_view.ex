@@ -1,6 +1,13 @@
 defmodule NollningScore.ResultView do
     use NollningScore.Web, :view
 
+    def render("user_contribution.json", %{results: results}) do
+      %{
+        type: :contributions,
+        data: render_many(results, NollningScore.ResultView, "result.json")
+      }
+    end
+
     def render("show.json", %{results: results}) do
       %{
         type: :results,
@@ -10,8 +17,7 @@ defmodule NollningScore.ResultView do
 
     def render("result.json", %{result: result}) do
       # Create synthetic id
-      # TODO: Insert spacer between ID:s
-      id = "#{result.event.id}0#{result.guild.id}" |> String.to_integer()
+      id = "#{result.event.id}00#{result.guild.id}" |> String.to_integer()
       result = result |> Map.put(:id, id)
 
       # Define own parameters to keep

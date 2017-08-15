@@ -28,6 +28,7 @@ defmodule NollningScore.Router do
       resources "/scores", ScoreController, only: [:index]
       resources "/categories", CategoryController, only: [:index]
       get "/results", ResultController, :show
+      get "/my_contribution", ResultController, :my_contribution
     end
 
     resources "/categories", CategoryController, only: [] do
