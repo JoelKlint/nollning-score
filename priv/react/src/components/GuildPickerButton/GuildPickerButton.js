@@ -1,15 +1,24 @@
 import React, { Component } from 'react'
 import './GuildPickerButton.css'
+import Color from 'color'
 
 class GuildPickerButton extends Component {
   render() {
 
-    const style = {
-      backgroundColor: this.props.guild.color,
+    const { guild } = this.props
+
+    // Dynamically calculate color for readability
+    const color = Color(guild.color)
+    let style = { backgroundColor: guild.color }
+    if(color.light()) {
+      style.color = 'black'
     }
-    if(this.props.guild.name === 'E') {
+    else {
       style.color = 'white'
+    }
+    if(color.white() > 87) {
       style.backgroundColor = 'black'
+      style.color = guild.color
     }
 
     return (
