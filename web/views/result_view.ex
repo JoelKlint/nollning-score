@@ -11,7 +11,7 @@ defmodule NollningScore.ResultView do
     def render("result.json", %{result: result}) do
       # Create synthetic id
       # TODO: Insert spacer between ID:s
-      id = "#{result.event.id}#{result.guild.id}" |> String.to_integer()
+      id = "#{result.event.id}0#{result.guild.id}" |> String.to_integer()
       result = result |> Map.put(:id, id)
 
       # Define own parameters to keep
