@@ -10,7 +10,11 @@ import SelectInput from '../Input/SelectInput'
 class ReviewScore extends Component {
 
   render() {
-    const { currentEventId, categories } = this.props
+    const {
+      currentEventId,
+      categories,
+      answeredEverything
+    } = this.props
 
     const renderedCategories = categories.map(c => {
       let input
@@ -50,7 +54,19 @@ class ReviewScore extends Component {
         <RaisedButton
           label="Avsluta >"
           primary
-          onClick={() => this.props.history.push(`/events/${currentEventId}/results`)}
+          onClick={() => {
+            let shouldNavigate = true
+            if(!answeredEverything) {
+              shouldNavigate = confirm(`
+                You have not answered everything!
+
+                Click OK to continue anyway
+              `)
+            }
+            if(shouldNavigate === true) {
+              this.props.history.push(`/events/${currentEventId}/results`)
+            }
+          }}
         />
 
       </div>
