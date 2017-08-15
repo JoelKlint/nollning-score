@@ -1,21 +1,34 @@
 import { createSelector } from 'reselect'
 import R from 'ramda'
 
-// EVENT SELECTORS
+/**
+ * Returns the current event
+ * @param {object} state
+ */
 export const getCurrentEvent = (state) => {
   const eventId = state.current.event
   const event = R.pathOr({}, ['entities', 'events', eventId])(state)
   return event
 }
 
-// GUILD SELECTORS
+/**
+ * Returns all guilds by id in a map
+ * @param {*} state
+ */
 export const getAllGuilds = (state) => R.pathOr({}, ['entities', 'guilds'])(state)
 
-// USER SELECTORS
+/**
+ * Returns the current user
+ * @param {*} state
+ */
 export const getCurrentUser = (state) => {
   const userId = state.current.user
   return R.pathOr({}, ['entities', 'users', userId])(state)
 }
+
+/**
+ * Returns a boolean value representating the admin status of the current user
+ */
 export const getIsAdmin = createSelector(
   [ getCurrentUser ],
   (user) => {
@@ -23,9 +36,16 @@ export const getIsAdmin = createSelector(
   }
 )
 
-// CATEGORIES SELECTORS
+/**
+ * Returns all categories by id in a map
+ * @param {*} state
+ */
 export const getAllCategories = (state) => R.pathOr({}, ['entities', 'categories'])(state)
 
+
+/**
+ * Returns all categories for the current event by id in a map
+ */
 export const getCategoriesForCurrentEvent = createSelector(
   [getAllCategories, getCurrentEvent],
   (allCategories, currentEvent) => {
@@ -33,6 +53,10 @@ export const getCategoriesForCurrentEvent = createSelector(
   }
 )
 
+/**
+ * Returns all categories for the current event
+ * that are editable by the current user by id in a map
+ */
 export const getCategoriesEditableByUserForCurrentEvent = createSelector(
   [getCategoriesForCurrentEvent, getCurrentUser],
   (categoriesForCurrentEvent, currentUser) => {
@@ -50,7 +74,10 @@ export const getCategoriesEditableByUserForCurrentEvent = createSelector(
   }
 )
 
-// SCORE SELECTORS
+/**
+ * Returns all scores by id in a map
+ * @param {*} state
+ */
 export const getAllScores = (state) => R.pathOr({}, ['entities', 'scores'])(state)
 export const getScoresByUser = createSelector(
   [getAllScores, getCurrentUser],
@@ -59,7 +86,12 @@ export const getScoresByUser = createSelector(
   }
 )
 
-export const getUserFinishedAnswersByGuild = createSelector(
+/**
+ * Returns a map with {key: value} = {guild_id: boolean}
+ * describing whether the current user has answered all
+ * questions for every guild
+ */
+export const getUserHasAnsweredEverythingForEventByGuild = createSelector(
   [
     getCategoriesEditableByUserForCurrentEvent,
     getScoresByUser,
@@ -95,8 +127,12 @@ export const getUserFinishedAnswersByGuild = createSelector(
   }
 )
 
-export const getUserHasAnsweredEverything = createSelector(
-  [getUserFinishedAnswersByGuild],
+/**
+ * Returns a boolean value representing whether the current user
+ * has answered all categories for all guilds for the current event
+ */
+export const getUserHasAnsweredEverythingForEvent = createSelector(
+  [getUserHasAnsweredEverythingForEventByGuild],
   (finishedWithGuild) => {
     return R.pipe(
       R.values(),
