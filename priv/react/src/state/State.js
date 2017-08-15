@@ -15,7 +15,23 @@ let JWT_TOKEN
  */
 const getJwt = () => localStorage.getItem("jwt") || JWT_TOKEN
 
-const API_BASE_URL = process.env.REACT_APP_NOLLNING_SCORE_BACKEND_URL || "http://localhost:4000"
+/**
+ * Setup URL for the backend
+ */
+let API_BASE_URL
+switch(process.env.NODE_ENV) {
+  case 'test':
+  case 'development':
+    API_BASE_URL = process.env.REACT_APP_NOLLNING_SCORE_BACKEND_URL || "http://localhost:4000"
+    break;
+  case 'production':
+    API_BASE_URL = ''
+    break;
+  default:
+    console.error(`Unknown node environment: ${process.env.NODE_ENV}`)
+    API_BASE_URL = ''
+    break;
+}
 
 export default State({
 
