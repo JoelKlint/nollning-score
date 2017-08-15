@@ -48,7 +48,7 @@ class Login extends Component {
         <TextField
           hintText="Lösenord"
           value={password}
-          type='text'
+          type='password'
           onChange={(event, val) => this.setState({password: val})}
           onKeyPress={event => event.key === 'Enter' ? this.login() : null}
         />
