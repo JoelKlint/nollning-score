@@ -45,17 +45,33 @@ defmodule NollningScore.ScoreController do
 
       # Handle an interval, integer or boolean kind of category
       type when type in [:interval, :integer, :boolean] ->
-        score = Repo.get_by(Score,
-          category_id: params["category_id"],
-          guild_id: params["guild_id"],
-          user_id: user.id
-        )
-        result = case score do
-          nil -> %Score{}
-          score -> score
+        result = case category.absolute do
+          true ->
+            score = Repo.get_by(Score,
+              category_id: params["category_id"],
+              guild_id: params["guild_id"],
+            )
+            result = case score do
+              nil -> %Score{}
+              score -> score
+            end
+            |> Score.changeset(params)
+            |> Score.changeset(%{user_id: user.id})
+            |> Repo.insert_or_update
+          false ->
+            score = Repo.get_by(Score,
+              category_id: params["category_id"],
+              guild_id: params["guild_id"],
+              user_id: user.id
+            )
+            result = case score do
+              nil -> %Score{}
+              score -> score
+            end
+            |> Score.changeset(params)
+            |> Repo.insert_or_update
         end
-        |> Score.changeset(params)
-        |> Repo.insert_or_update
+
         case result do
           {:ok, score} ->
             score = Repo.preload(score, [:category, :guild, :user])
