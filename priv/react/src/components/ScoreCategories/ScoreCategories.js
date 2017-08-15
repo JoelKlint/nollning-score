@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './ScoreCategories.css'
+import RaisedButton from 'material-ui/RaisedButton';
 
 import Slider from '../Slider'
 import IntegerInput from '../IntegerInput'
@@ -50,14 +51,13 @@ class ScoreCategories extends Component {
     return (
       <div className="ScoreCategories_Base">
 
-        <div>{categories}</div>
+        <div className="Categories">{categories}</div>
 
-        <div
-          className="ReviewButton"
+        <RaisedButton
+          label="Överblick >"
+          primary
           onClick={() => this.props.history.push(`/events/${this.props.currentEventId}/review`)}
-        >
-          <div>Review</div>
-        </div>
+        />
       </div>
     )
   }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './ReviewScore.css'
+import RaisedButton from 'material-ui/RaisedButton';
 
 import IntervalReview from '../Review/IntervalReview'
 import IntegerReview from '../Review/IntegerReview'
@@ -46,12 +47,11 @@ class ReviewScore extends Component {
 
         <div>{renderedCategories}</div>
 
-        <div
-          className="EditButton"
+        <RaisedButton
+          label="Avsluta >"
+          primary
           onClick={() => this.props.history.push(`/events/${currentEventId}/results`)}
-        >
-          <div>Finished</div>
-        </div>
+        />
 
       </div>
     )
