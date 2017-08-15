@@ -80,7 +80,7 @@ const addApiResponseToState = (res) => {
   return new Promise((resolve, reject) => {
     let normalized = {}
 
-    let category, event, guild, score, result, user
+    let category, event, guild, score, result, user, contribution
 
     switch(res.type) {
 
@@ -188,6 +188,17 @@ const addApiResponseToState = (res) => {
             event: event,
         })
         normalized = normalize(res.data, [result])
+        Actions.updateEntities(normalized.entities)
+        break;
+
+      case "contributions":
+        guild = new schema.Entity('guilds')
+        event = new schema.Entity('events')
+        contribution = new schema.Entity('contributions', {
+            guild: guild,
+            event: event,
+        })
+        normalized = normalize(res.data, [contribution])
         Actions.updateEntities(normalized.entities)
         break;
 
@@ -316,6 +327,16 @@ Effect('selectGuildWonCategory', (payload) => {
 
 Effect('getResultsForEvent', (event_id) => {
   return fetch(`${API_BASE_URL}/api/events/${event_id}/results`, {
+    headers: new Headers({
+      'Authorization': `Bearer ${getJwt()}`
+    })
+  })
+  .then(res => interpretApiResponse(res))
+  .catch(err => console.error(err))
+})
+
+Effect('getContributionsForEvent', (event_id) => {
+  return fetch(`${API_BASE_URL}/api/events/${event_id}/my_contribution`, {
     headers: new Headers({
       'Authorization': `Bearer ${getJwt()}`
     })

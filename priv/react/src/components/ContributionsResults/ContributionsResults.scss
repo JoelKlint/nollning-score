@@ -1,0 +1,12 @@
+.ContributionsResults_Base {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  .Title {
+    text-align: center;
+    font-size: 30px;
+  }
+  .NextButton {
+    align-self: flex-end;
+  }
+}

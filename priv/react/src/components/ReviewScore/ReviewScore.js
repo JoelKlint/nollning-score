@@ -12,7 +12,7 @@ class ReviewScore extends Component {
 
   render() {
     const {
-      currentEventId,
+      goToNextScreen,
       categories,
       answeredEverything,
       isAdmin
@@ -66,7 +66,7 @@ class ReviewScore extends Component {
               `)
             }
             if(shouldNavigate === true) {
-              this.props.history.push(`/events/${currentEventId}/results`)
+              goToNextScreen()
             }
           }}
         />

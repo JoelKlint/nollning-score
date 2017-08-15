@@ -1,11 +1,13 @@
-import Results from '../Results/Results'
+import TotalResults from './TotalResults'
 import { connect } from 'react-redux'
 import R from 'ramda'
+import { Actions } from 'jumpstate'
 
 const stateful = connect(state => {
   const resultByGuild = R.pipe(
     R.pathOr({}, ['entities', 'results']),
     R.values(),
+    R.filter(r => r.event === state.current.event),
     R.groupBy(R.prop('guild')),
     R.map(r => R.head(r)),
   )(state)
@@ -22,9 +24,9 @@ const stateful = connect(state => {
   )(state)
 
   return {
-    currentEventId: state.current.event,
-    guilds: guildsWithResult
+    guilds: guildsWithResult,
+    getData: () => Actions.getResultsForEvent(state.current.event)
   }
 })
 
-export default stateful(Results)
+export default stateful(TotalResults)

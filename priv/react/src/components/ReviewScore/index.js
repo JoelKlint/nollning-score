@@ -7,16 +7,16 @@ import {
   getIsAdmin
 } from '../../state/Selectors'
 
-const stateful = connect(state => {
+const stateful = connect((state, props) => {
   return {
-    currentEventId: state.current.event,
     categories: R.pipe(
       R.pathOr({}, ['entities', 'categories']),
       R.pick( R.pathOr([], ['entities', 'events', state.current.event, 'categories'], state) ),
       R.values()
     )(state),
     answeredEverything: getUserHasAnsweredEverythingForEvent(state),
-    isAdmin: getIsAdmin(state)
+    isAdmin: getIsAdmin(state),
+    goToNextScreen: () => props.history.push(`/events/${state.current.event}/contributions`)
   }
 })
 

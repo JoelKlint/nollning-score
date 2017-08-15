@@ -1,19 +1,17 @@
 import React, { Component } from 'react'
 import './Results.css'
-import { Actions } from 'jumpstate'
 
 class Results extends Component {
 
   constructor(props) {
     super(props)
-    Actions.getResultsForEvent(props.currentEventId)
+    props.getData()
   }
 
   render() {
     const { guilds } = this.props
     return (
       <div className="Results_Base">
-        <u>Totalt resultat</u>
         {guilds.map((g, i) => {
           if(i === 0) {
             return (

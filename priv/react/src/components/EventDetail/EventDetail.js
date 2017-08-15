@@ -7,6 +7,7 @@ import EditScore from '../EditScore'
 import ReviewScore from '../ReviewScore'
 import TotalResults from '../TotalResults'
 import NotFound from '../NotFound'
+import ContributionsResults from '../ContributionsResults'
 
 class EventDetail extends Component {
 
@@ -32,6 +33,7 @@ class EventDetail extends Component {
                     <Route path='/events/:event_id/edit' component={EditScore}/>
                     <Route path='/events/:event_id/review' component={ReviewScore} />
                     <Route path='/events/:event_id/results' component={TotalResults} />
+                    <Route path='/events/:event_id/contributions' component={ContributionsResults} />
                     <Route component={NotFound} />
                 </Switch>
             </div>
