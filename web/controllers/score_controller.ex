@@ -12,7 +12,8 @@ defmodule NollningScore.ScoreController do
       s in Score,
       join: c in Category, on: s.category_id == c.id,
       where: c.event_id == ^event_id,
-      where: s.user_id == ^user.id
+      where: s.user_id == ^user.id,
+      or_where: c.absolute == true
     )
     |> Repo.all()
     |> Repo.preload([:category, :guild, :user])
