@@ -2,6 +2,19 @@ import { State, Effect, Actions } from 'jumpstate'
 import R from 'ramda'
 import { schema, normalize } from 'normalizr'
 
+/**
+ * Holds the jwt for when localStorage is not accessible
+ */
+let JWT_TOKEN
+
+/**
+ * Returns the jwt token.
+ *
+ * Incognito mode in safari seems to have issues with localstorage,
+ * therefore this exists
+ */
+const getJwt = () => localStorage.getItem("jwt") || JWT_TOKEN
+
 const API_BASE_URL = process.env.REACT_APP_NOLLNING_SCORE_BACKEND_URL || "http://localhost:4000"
 
 export default State({
@@ -56,13 +69,19 @@ const addApiResponseToState = (res) => {
     switch(res.type) {
 
       case "login":
-        // Store token in local localStorage so it can be retrieved later
-        localStorage.setItem('jwt', res.data.jwt)
+        try {
+          // Store token in local localStorage so it can be retrieved later
+          localStorage.setItem('jwt', res.data.jwt)
+        } catch (error) {
+          // Incognito mode in safari seems to have issues with localStorage.
+          // Therefore, put the JWT in this temporary variable
+          JWT_TOKEN = res.data.jwt
+        }
 
         user = new schema.Entity('users')
-        normalized = normalize(res.data, user)
+        normalized = normalize(res.data.user, user)
 
-        Actions.updateEntities(normalize.entities)
+        Actions.updateEntities(normalized.entities)
         Actions.setCurrentUser(res.data.user.id)
         break;
 
@@ -196,7 +215,7 @@ const interpretApiResponse = (res) => {
 Effect('getAllEvents', () => {
   return fetch(`${API_BASE_URL}/api/events`, {
     headers: new Headers({
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      'Authorization': `Bearer ${getJwt()}`
     })
   })
   .then(res => interpretApiResponse(res))
@@ -206,7 +225,7 @@ Effect('getAllEvents', () => {
 Effect('getEvent', (event_id) => {
   return fetch(`${API_BASE_URL}/api/events/${event_id}`, {
     headers: new Headers({
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      'Authorization': `Bearer ${getJwt()}`
     })
   })
   .then(res => interpretApiResponse(res))
@@ -216,7 +235,7 @@ Effect('getEvent', (event_id) => {
 Effect('getAllGuilds', () => {
   return fetch(`${API_BASE_URL}/api/guilds`, {
     headers: new Headers({
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      'Authorization': `Bearer ${getJwt()}`
     })
   })
   .then(res => interpretApiResponse(res))
@@ -226,7 +245,7 @@ Effect('getAllGuilds', () => {
 Effect('getAllCategoriesForEvent', (event_id) => {
   return fetch(`${API_BASE_URL}/api/events/${event_id}/categories`, {
     headers: new Headers({
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      'Authorization': `Bearer ${getJwt()}`
     })
   })
   .then(res => interpretApiResponse(res))
@@ -236,7 +255,7 @@ Effect('getAllCategoriesForEvent', (event_id) => {
 Effect('getAllScoresForEvent', (event_id) => {
   return fetch(`${API_BASE_URL}/api/events/${event_id}/scores`, {
     headers: new Headers({
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      'Authorization': `Bearer ${getJwt()}`
     })
   })
   .then(res => interpretApiResponse(res))
@@ -255,7 +274,7 @@ Effect('setScoreForCategoryAndGuild', (payload) => {
     }),
     headers: new Headers({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      'Authorization': `Bearer ${getJwt()}`
     })
   })
   .then(res => interpretApiResponse(res))
@@ -272,7 +291,7 @@ Effect('selectGuildWonCategory', (payload) => {
     }),
     headers: new Headers({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      'Authorization': `Bearer ${getJwt()}`
     })
   })
   .then(res => interpretApiResponse(res))
@@ -282,7 +301,7 @@ Effect('selectGuildWonCategory', (payload) => {
 Effect('getResultsForEvent', (event_id) => {
   return fetch(`${API_BASE_URL}/api/events/${event_id}/results`, {
     headers: new Headers({
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      'Authorization': `Bearer ${getJwt()}`
     })
   })
   .then(res => interpretApiResponse(res))
@@ -298,7 +317,7 @@ Effect('login', ({username, password}) => {
     }),
     headers: new Headers({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      'Authorization': `Bearer ${getJwt()}`
     })
   })
   .then(res => interpretApiResponse(res))
@@ -307,7 +326,7 @@ Effect('login', ({username, password}) => {
 Effect('getCurrentUser', () => {
   return fetch(`${API_BASE_URL}/api/me`, {
     headers: new Headers({
-      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      'Authorization': `Bearer ${getJwt()}`
     })
   })
   .then(res => interpretApiResponse(res))
