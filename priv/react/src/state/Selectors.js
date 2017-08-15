@@ -18,6 +18,13 @@ export const getCurrentEvent = (state) => {
 export const getAllGuilds = (state) => R.pathOr({}, ['entities', 'guilds'])(state)
 
 /**
+ * Returns the specified guild
+ * @param {*} state
+ * @param {number} id
+ */
+export const getGuild = (state, id) => R.pathOr({}, ['entities', 'guilds', id])(state)
+
+/**
  * Returns the current user
  * @param {*} state
  */

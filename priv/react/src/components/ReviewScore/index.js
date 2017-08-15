@@ -2,7 +2,10 @@ import ReviewScore from './ReviewScore'
 import { connect } from 'react-redux'
 import R from 'ramda'
 
-import { getUserHasAnsweredEverythingForEvent } from '../../state/Selectors'
+import {
+  getUserHasAnsweredEverythingForEvent,
+  getIsAdmin
+} from '../../state/Selectors'
 
 const stateful = connect(state => {
   return {
@@ -12,7 +15,8 @@ const stateful = connect(state => {
       R.pick( R.pathOr([], ['entities', 'events', state.current.event, 'categories'], state) ),
       R.values()
     )(state),
-    answeredEverything: getUserHasAnsweredEverythingForEvent(state)
+    answeredEverything: getUserHasAnsweredEverythingForEvent(state),
+    isAdmin: getIsAdmin(state)
   }
 })
 

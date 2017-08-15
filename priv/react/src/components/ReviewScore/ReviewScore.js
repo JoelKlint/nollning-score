@@ -6,6 +6,7 @@ import IntervalReview from '../Review/IntervalReview'
 import IntegerReview from '../Review/IntegerReview'
 import BooleanReview from '../Review/BooleanReview'
 import SelectInput from '../Input/SelectInput'
+import GuildSelectReview from '../Review/GuildSelectReview'
 
 class ReviewScore extends Component {
 
@@ -13,7 +14,8 @@ class ReviewScore extends Component {
     const {
       currentEventId,
       categories,
-      answeredEverything
+      answeredEverything,
+      isAdmin
     } = this.props
 
     const renderedCategories = categories.map(c => {
@@ -29,7 +31,7 @@ class ReviewScore extends Component {
           input = <BooleanReview category={c} />
           break
         case 'guild':
-          input = <SelectInput question={c} />
+          input = isAdmin ? <SelectInput question={c} /> : <GuildSelectReview category={c}/>
           break
         default:
           input = <div>Unacceptable question recieved</div>
