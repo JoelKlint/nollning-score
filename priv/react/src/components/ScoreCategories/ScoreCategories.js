@@ -13,7 +13,7 @@ class ScoreCategories extends Component {
     const { user } = this.props
 
     const categories = this.props.categories.map(c => {
-      if(c.absolute && user.role === "basic") {
+      if(c.absolute === true && user.role === "basic") {
         return []
       }
       else if(c.global === true) {

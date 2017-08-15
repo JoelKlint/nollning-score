@@ -49,7 +49,7 @@ class ReviewScore extends Component {
     return (
       <div className="ReviewScore_Base">
 
-        <div>{renderedCategories}</div>
+        <div className="Categories">{renderedCategories}</div>
 
         <RaisedButton
           label="Avsluta >"
