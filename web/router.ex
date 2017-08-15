@@ -19,11 +19,6 @@ defmodule NollningScore.Router do
     plug Guardian.Plug.EnsureAuthenticated, handler: NollningScore.SessionController
   end
 
-  scope "/", NollningScore do
-    pipe_through :browser # Use the default browser stack
-
-    get "/", PageController, :index
-  end
 
   # Other scopes may use custom stacks.
   scope "/api", NollningScore do
@@ -50,5 +45,18 @@ defmodule NollningScore.Router do
 
     post "/login", SessionController, :create
 
+  end
+
+
+  """
+    Serves the pre-built React frontend.
+
+    This has to be the last route, to only catch routes that are undefined.
+    Otherwise, this overrides all api routes
+  """
+  scope "/", NollningScore do
+    pipe_through :browser # Use the default browser stack
+
+    get "/*path", PageController, :index
   end
 end
