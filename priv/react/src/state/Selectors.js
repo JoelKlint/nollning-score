@@ -25,6 +25,16 @@ export const getAllGuilds = (state) => R.pathOr({}, ['entities', 'guilds'])(stat
 export const getGuild = (state, id) => R.pathOr({}, ['entities', 'guilds', id])(state)
 
 /**
+ * Returns the current guild
+ * @param {*} state
+ */
+export const getCurrentGuild = (state) => {
+  const guildId = state.current.guild
+  const guild = R.pathOr({}, ['entities', 'guilds', guildId])(state)
+  return guild
+}
+
+/**
  * Returns the current user
  * @param {*} state
  */
@@ -70,13 +80,10 @@ export const getCategoriesEditableByUserForCurrentEvent = createSelector(
     switch(currentUser.role) {
       case "basic":
         return R.reject(c => c.absolute === true)(categoriesForCurrentEvent)
-        break;
       case "admin":
         return categoriesForCurrentEvent
-        break;
       default:
         return R.empty(categoriesForCurrentEvent)
-        break;
     }
   }
 )
@@ -112,12 +119,11 @@ export const getUserHasAnsweredEverythingForEventByGuild = createSelector(
           case "integer":
           case "boolean":
             return R.any(s => s.category === c.id && s.guild === g.id)(R.values(scores))
-            break;
           case "guild":
             return R.type(c.selected_guild) === "Number"
-            break;
           default:
             console.error("CATEGORY WITH RANDOM TYPE IDENTIFIED!!")
+            return new Error("CATEGORY WITH RANDOM TYPE IDENTIFIED")
         }
       })(categories)
     })(guilds)
@@ -145,6 +151,41 @@ export const getUserHasAnsweredEverythingForEvent = createSelector(
       R.values(),
       R.all(answer => answer === true)
     )(finishedWithGuild)
+  }
+)
+
+/**
+ * Returns all scores for the current event by id in a map
+ */
+export const getScoresForCurrentEvent = createSelector(
+  [getAllScores, getCurrentEvent],
+  (scores, event) => {
+    return R.filter(s => R.contains(s.category, event.categories))(scores)
+  }
+)
+
+/**
+ * Returns all scores for the category specified by categoryId
+ * @param {*} state
+ * @param {*} props
+ */
+export const getScoresForCategory = (state, props) => {
+  const categoryId = props.categoryId
+  const allScores = R.pathOr({}, ['entities', 'scores'], state)
+  return R.filter(s => s.category === categoryId)(allScores)
+}
+
+/**
+ * Returns the score for the category specified by categoryId
+ * aswell as the current guild
+ */
+export const getScoreForCategoryAndCurrentGuild = createSelector(
+  [getScoresForCategory, getCurrentGuild],
+  (scores, guild) => {
+    return R.pipe(
+      R.values(),
+      R.find(s => s.guild === guild.id)
+    )(scores) || {}
   }
 )
 

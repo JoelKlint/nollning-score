@@ -22,7 +22,7 @@ let API_BASE_URL
 switch(process.env.NODE_ENV) {
   case 'test':
   case 'development':
-    API_BASE_URL = process.env.REACT_APP_NOLLNING_SCORE_BACKEND_URL || ''
+    API_BASE_URL = process.env.REACT_APP_NOLLNING_SCORE_BACKEND_URL || 'http://localhost:4000'
     break;
   case 'production':
     API_BASE_URL = ''

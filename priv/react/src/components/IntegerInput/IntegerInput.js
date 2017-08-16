@@ -1,30 +1,20 @@
 import React from 'react'
 import './IntegerInput.css'
-import R from 'ramda'
-import { Actions } from 'jumpstate'
 
 class IntegerInput extends React.Component {
 
-  setValue(val) {
-    Actions.setScoreForCategoryAndGuild({
-      category_id: this.props.question.id,
-      guild_id: this.props.currentGuildId,
-      value: val
-    })
-  }
+  increment = () => this.props.sendScoreToBackend((this.props.score.value || 0) + 1)
+
+  decrement = () => this.props.sendScoreToBackend((this.props.score.value || 0) - 1)
 
   render() {
-
-    const category = this.props.question
-    let score = R.find(score => score.guild === this.props.currentGuildId && score.category === category.id)(this.props.scores) || {}
-
-    score.value = score.value
+    const { score } = this.props
 
     return (
       <div className="IntegerInput_Base">
         <div
           className="Button"
-          onTouchTap={() => this.setValue((score.value || 0) - 1)}
+          onTouchTap={() => this.decrement()}
         >
           -
         </div>
@@ -33,7 +23,7 @@ class IntegerInput extends React.Component {
 
         <div
           className="Button"
-          onTouchTap={() => this.setValue((score.value || 0) + 1)}
+          onTouchTap={() => this.increment()}
         >
           +
         </div>

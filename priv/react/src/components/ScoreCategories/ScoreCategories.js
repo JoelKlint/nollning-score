@@ -22,13 +22,13 @@ class ScoreCategories extends Component {
       let input
       switch (c.type) {
         case 'interval':
-          input = <Slider question={c} />
+          input = <Slider category={c} />
           break
         case 'integer':
-          input = <IntegerInput question={c} />
+          input = <IntegerInput category={c} />
           break
         case 'boolean':
-          input = <BooleanInput question={c} />
+          input = <BooleanInput category={c} />
           break
         case 'guild':
           input = <div>Select input question should not be rendered</div>
