@@ -7,7 +7,6 @@ import {
   ReferenceLine,
   Cell
 } from 'recharts'
-import Color from 'color'
 
 class IntervalReviewChart extends React.Component {
   render() {
@@ -30,10 +29,9 @@ class IntervalReviewChart extends React.Component {
           <ReferenceLine y={0} stroke="black" />
           <Bar dataKey="score">
             {
-              guilds.map((guild, index) => {
-                const color = Color(guild.color)
-                return <Cell cursor="pointer" fill={Color(guild.color).white() > 87 ? 'black' : guild.color}/>
-              })
+              guilds.map((guild, index) => (
+                <Cell fill={guild.color} stroke="black"/>
+              ))
             }
           </Bar>
         </BarChart>
