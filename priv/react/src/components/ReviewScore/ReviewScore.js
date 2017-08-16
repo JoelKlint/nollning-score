@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import './ReviewScore.css'
 import RaisedButton from 'material-ui/RaisedButton';
 
-import IntervalReview from '../Review/IntervalReview'
 import IntegerReview from '../Review/IntegerReview'
 import BooleanReview from '../Review/BooleanReview'
 import SelectInput from '../Input/SelectInput'
 import GuildSelectReview from '../Review/GuildSelectReview'
+
+import IntervalReviewChart from '../Review/IntervalReviewChart'
 
 class ReviewScore extends Component {
 
@@ -22,7 +23,7 @@ class ReviewScore extends Component {
       let input
       switch (c.type) {
         case 'interval':
-          input = <IntervalReview category={c} />
+          input = <IntervalReviewChart category={c} />
           break
         case 'integer':
           input = <IntegerReview category={c} />
