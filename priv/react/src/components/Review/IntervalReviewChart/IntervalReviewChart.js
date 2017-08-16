@@ -20,20 +20,21 @@ class IntervalReviewChart extends React.Component {
     }
 
     const width = window.innerWidth
+    const intervalSize = Math.abs(category.interval_min - category.interval_max)
 
     return (
       <div>
-        <BarChart margin={margin} width={width - 45} height={200} data={guilds}>
-          <XAxis minTickGap={0} dataKey="name" tickLine={false}/>
-          <YAxis width={25} domain={[category.interval_min, category.interval_max]} />
-          <ReferenceLine y={0} stroke="black" />
+        <BarChart layout="vertical" margin={margin} width={width-60} height={30 + 25*guilds.length} data={guilds}>
+          <XAxis type="number" domain={[category.interval_min, category.interval_max]} tickCount={intervalSize} />
+          <YAxis width={50} type="category" dataKey="name" />
           <Bar dataKey="score">
             {
               guilds.map((guild, index) => (
-                <Cell fill={guild.color} stroke="black"/>
+                <Cell key={index} fill={guild.color} stroke="black"/>
               ))
             }
           </Bar>
+          <ReferenceLine x={0} stroke="black" strokeWidth={2}/>
         </BarChart>
       </div>
     )
@@ -41,3 +42,18 @@ class IntervalReviewChart extends React.Component {
 }
 
 export default IntervalReviewChart
+
+/**
+ * Twists a tick. Hand as tick prop to <*Axis/> component
+ */
+class CustomizedAxisTick extends React.Component {
+  render () {
+    const {x, y, stroke, payload} = this.props;
+
+   	return (
+    	<g transform={`translate(${x},${y})`}>
+        <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-45)">{payload.value}</text>
+      </g>
+    );
+  }
+}
