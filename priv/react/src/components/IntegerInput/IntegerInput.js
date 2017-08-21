@@ -21,7 +21,7 @@ class IntegerInput extends React.Component {
     if(R.isNil(category.interval_max)) {
       return false
     }
-    else if(score.value < category.interval_max) {
+    else if(R.propOr(0, 'value')(score) < category.interval_max) {
       return false
     }
     else {
@@ -35,7 +35,7 @@ class IntegerInput extends React.Component {
     if(R.isNil(category.interval_min)) {
       return false
     }
-    else if(score.value > category.interval_min) {
+    else if(R.propOr(0, 'value')(score) > category.interval_min) {
       return false
     }
     else {
