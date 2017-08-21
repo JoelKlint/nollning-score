@@ -5,6 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Slider from '../Slider'
 import IntegerInput from '../IntegerInput'
 import BooleanInput from '../BooleanInput'
+import ActionGavel from 'material-ui/svg-icons/action/gavel'
+import {grey400} from 'material-ui/styles/colors';
 
 class ScoreCategories extends Component {
 
@@ -44,6 +46,7 @@ class ScoreCategories extends Component {
         >
           <div className="Name">{c.name}</div>
           {input}
+          <span className="Absolute_Icon">{c.absolute === true ? <ActionGavel color={grey400}/> : ''}</span>
         </div>
       )
     })
