@@ -30,7 +30,7 @@ class Slider extends Component {
               min={category.interval_min}
               max={category.interval_max}
               dots={true}
-              value={localScore}
+              value={localScore || 0}
               handleStyle={{
                 transform: 'scale(2)'
               }}
