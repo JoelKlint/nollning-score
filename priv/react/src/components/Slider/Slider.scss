@@ -15,20 +15,22 @@
         width: 70%;
     }
 
+    .StatusIcon {
+      width: 20px;
+      height: 20px;
+      border-radius: 20px;
+    }
+
     .Saved {
-        width: 20px;
-        height: 20px;
-        border-radius: 20px;
-        transform: translateY(3px);
-        background-color: green;
+      background-color: green;
     }
 
     .NotSaved {
-        width: 20px;
-        height: 20px;
-        border-radius: 20px;
-        transform: translateY(3px);
-        background-color: red;
+      background-color: red;
+    }
+
+    .NoScore {
+      background-color: yellow;
     }
 }
 

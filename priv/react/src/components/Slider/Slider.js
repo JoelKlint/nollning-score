@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import './Slider.css'
 import RcSlider from 'rc-slider/lib/Slider';
 import 'rc-slider/assets/index.css';
+import R from 'ramda'
 
 class Slider extends Component {
 
   state = {
-    localScore: this.props.score.value || 0
+    localScore: this.props.score.value
   }
 
   render() {
@@ -21,7 +22,7 @@ class Slider extends Component {
     return (
       <div className="Slider_Base">
         <div className="Slider">
-          <div className="GivenScore">{localScore}</div>
+          <div className="GivenScore">{R.isNil(localScore) ? '-' : localScore}</div>
           <div className="SliderWrapper">
             <RcSlider
               onChange={val => this.setState({localScore: val})}
@@ -35,15 +36,26 @@ class Slider extends Component {
               }}
             />
           </div>
-          {score.value === localScore ?
-            <div className="Saved"></div>
-            :
-            <div className="NotSaved"></div>
-          }
+          {this.renderStatusIcon()}
         </div>
       </div>
     )
   }
+
+  renderStatusIcon = () => {
+    const { score } = this.props
+    const { localScore } = this.state
+    if(R.isNil(score.value)) {
+      return <div className="StatusIcon NoScore"></div>
+    }
+    else if(score.value === localScore) {
+      return <div className="StatusIcon Saved"></div>
+    }
+    else {
+      return <div className="StatusIcon NotSaved"></div>
+    }
+  }
+
 }
 
 export default Slider
