@@ -29,6 +29,7 @@ defmodule NollningScore.Router do
       resources "/categories", CategoryController, only: [:index]
       get "/results", ResultController, :show
       get "/my_contribution", ResultController, :my_contribution
+      resources "/user_locks", UserEventLockController, only: [:index, :create]
     end
 
     resources "/categories", CategoryController, only: [] do
