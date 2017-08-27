@@ -12,7 +12,7 @@ class ScoreCategories extends Component {
 
   render() {
 
-    const { user } = this.props
+    const { user, currentGuild, goToNextScreen } = this.props
 
     const categories = this.props.categories.map(c => {
       if(c.absolute === true && user.role === "basic") {
@@ -24,7 +24,8 @@ class ScoreCategories extends Component {
       let input
       switch (c.type) {
         case 'interval':
-          input = <Slider category={c} />
+          // Set the guild as key so component is rerendered on guild change
+          input = <Slider key={currentGuild.id} category={c} />
           break
         case 'integer':
           input = <IntegerInput category={c} />
@@ -59,7 +60,7 @@ class ScoreCategories extends Component {
         <RaisedButton
           label="Överblick >"
           primary
-          onClick={() => this.props.history.push(`/events/${this.props.currentEventId}/review`)}
+          onClick={() => goToNextScreen()}
         />
       </div>
     )

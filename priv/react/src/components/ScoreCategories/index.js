@@ -1,13 +1,18 @@
 import ScoreCategories from './ScoreCategories'
 import { connect } from 'react-redux'
+import {
+  getCurrentGuild,
+  getCurrentUser,
+  getCategoriesForCurrentEvent
+} from '../../state/Selectors'
 import R from 'ramda'
 
-const stateful = connect(state => {
-  const userId = R.path(['current', 'user'], state)
-    return {
-        currentEventId: state.current.event,
-        categories: R.filter(c => c.event === state.current.event)(R.values(state.entities.categories)),
-        user: R.pathOr({}, ['entities', 'users', userId], state)
-    }
+const stateful = connect((state, props) => {
+  return {
+    categories: R.pipe(getCategoriesForCurrentEvent, R.values())(state),
+    user: getCurrentUser(state),
+    currentGuild: getCurrentGuild(state),
+    goToNextScreen: () => props.history.push(`/events/${state.current.event}/review`)
+  }
 })
 export default stateful(ScoreCategories)
