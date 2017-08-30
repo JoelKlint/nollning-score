@@ -51,7 +51,7 @@ defmodule NollningScore.ResultController do
     guild_select_results = get_guild_select_results(params)
 
     # Sum all results
-    results = Enum.concat([
+    result_for_guilds = Enum.concat([
       interval_results,
       integer_results,
       boolean_results,
@@ -62,9 +62,15 @@ defmodule NollningScore.ResultController do
       result = Enum.map(results_for_guild, fn res_object ->
         res_object.result
       end) |> Enum.sum
+      %{guild_id: guild_id, result: result}
+    end)
+    |> Enum.reduce(%{}, fn(o, acc) -> Map.put(acc, o.guild_id, o.result) end)
+
+    Guild |> Repo.all
+    |> Enum.map(fn guild ->
       %{
-        guild: Repo.get(Guild, guild_id),
-        result: result,
+        guild: guild,
+        result: Map.get(result_for_guilds, guild.id) || 0,
         event: event
       }
     end)
