@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './Slider.css'
 import RcSlider from 'rc-slider/lib/Slider';
 import 'rc-slider/assets/index.css';
-import R from 'ramda'
+import { isNil } from 'ramda'
 
 class Slider extends Component {
 
@@ -14,15 +14,16 @@ class Slider extends Component {
     const { category, sendScoreToBackend, score } = this.props
     const { localScore } = this.state
 
-    // Set initial score if it exists
-    if(score.value && !localScore) {
+    // Set backend score to localScore if localScore does not exist but backend does
+    // Used to make slider show initial score correctly
+    if(!isNil(score.value) && isNil(localScore)) {
       this.setState({localScore: score.value})
     }
 
     return (
       <div className="Slider_Base">
         <div className="Slider">
-          <div className="GivenScore">{R.isNil(localScore) ? '-' : localScore}</div>
+          <div className="GivenScore">{isNil(localScore) ? '-' : localScore}</div>
           <div className="SliderWrapper">
             <RcSlider
               onChange={val => this.setState({localScore: val})}
@@ -45,7 +46,7 @@ class Slider extends Component {
   renderStatusIcon = () => {
     const { score } = this.props
     const { localScore } = this.state
-    if(R.isNil(score.value)) {
+    if(isNil(score.value)) {
       return <div className="StatusIcon NoScore"></div>
     }
     else if(score.value === localScore) {
