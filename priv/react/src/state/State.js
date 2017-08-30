@@ -62,6 +62,12 @@ export default State({
 
   setCurrentUser(state, user_id) {
     return R.assocPath(['current', 'user'], user_id, state)
+  },
+
+  logOut(state) {
+    localStorage.removeItem('jwt')
+    JWT_TOKEN = undefined
+    return R.assocPath(['current', 'user'], undefined, state)
   }
 
 })

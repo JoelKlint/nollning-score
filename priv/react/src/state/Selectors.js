@@ -189,4 +189,10 @@ export const getScoreForCategoryAndCurrentGuild = createSelector(
   }
 )
 
-
+/**
+ * Returns a boolean that represents where there is currently a logged in user
+ */
+export const getIsLoggedIn = createSelector(
+  [getCurrentUser],
+  (user) => !R.isEmpty(user)
+)
