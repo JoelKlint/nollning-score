@@ -28,7 +28,11 @@ class Slider extends Component {
           <div className="GivenScore">{isNil(localScore) ? '-' : localScore}</div>
           <div className="SliderWrapper">
             <RcSlider
-              onChange={val => this.setState({localScore: val})}
+              onChange={val => {
+                if(Math.abs(val-this.state.localScore) === 1) {
+                  this.setState({localScore: val})
+                }
+              }}
               onAfterChange={val => sendScoreToBackend(val)}
               min={category.interval_min}
               max={category.interval_max}
