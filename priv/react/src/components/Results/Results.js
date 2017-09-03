@@ -3,8 +3,8 @@ import './Results.css'
 
 class Results extends Component {
 
-  componentWillMount(props) {
-    props.getData()
+  componentWillMount() {
+    this.props.getData()
   }
 
   render() {
