@@ -1,3 +1,5 @@
+// @flow
+
 import { State, Effect, Actions } from 'jumpstate'
 import R from 'ramda'
 import { schema, normalize } from 'normalizr'
@@ -5,7 +7,7 @@ import { schema, normalize } from 'normalizr'
 /**
  * Holds the jwt for when localStorage is not accessible
  */
-let JWT_TOKEN = undefined
+let JWT_TOKEN: string = ''
 
 /**
  * Returns the jwt token.
@@ -13,14 +15,14 @@ let JWT_TOKEN = undefined
  * Incognito mode in safari seems to have issues with localstorage,
  * therefore this exists
  */
-const getJwt = () => localStorage.getItem("jwt") || JWT_TOKEN
+const getJwt = (): string => localStorage.getItem("jwt") || JWT_TOKEN
 
 /**
  * Function that deletes the JWT from memory
  */
 const deleteJwt = () => {
   localStorage.removeItem('jwt')
-  JWT_TOKEN = undefined
+  JWT_TOKEN = R.empty(JWT_TOKEN)
 }
 
 /**
@@ -36,7 +38,7 @@ switch(process.env.NODE_ENV) {
     API_BASE_URL = ''
     break;
   default:
-    console.error(`Unknown node environment: ${process.env.NODE_ENV}`)
+    console.error(`Unknown node environment: ${String(process.env.NODE_ENV)}`)
     API_BASE_URL = ''
     break;
 }
@@ -60,15 +62,15 @@ export default State({
     )
   },
 
-  setCurrentEvent(state, event_id) {
+  setCurrentEvent(state, event_id: number) {
     return R.assocPath(['current', 'event'], Number(event_id), state)
   },
 
-  setCurrentGuild(state, guild_id) {
+  setCurrentGuild(state, guild_id: number) {
     return R.assocPath(['current', 'guild'], Number(guild_id), state)
   },
 
-  setCurrentUser(state, user_id) {
+  setCurrentUser(state, user_id: number) {
     return R.assocPath(['current', 'user'], user_id, state)
   },
 
