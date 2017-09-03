@@ -5,7 +5,7 @@ import { schema, normalize } from 'normalizr'
 /**
  * Holds the jwt for when localStorage is not accessible
  */
-let JWT_TOKEN
+let JWT_TOKEN = undefined
 
 /**
  * Returns the jwt token.
@@ -14,6 +14,14 @@ let JWT_TOKEN
  * therefore this exists
  */
 const getJwt = () => localStorage.getItem("jwt") || JWT_TOKEN
+
+/**
+ * Function that deletes the JWT from memory
+ */
+const deleteJwt = () => {
+  localStorage.removeItem('jwt')
+  JWT_TOKEN = undefined
+}
 
 /**
  * Setup URL for the backend
@@ -65,9 +73,9 @@ export default State({
   },
 
   logOut(state) {
-    localStorage.removeItem('jwt')
-    JWT_TOKEN = undefined
-    return R.assocPath(['current', 'user'], undefined, state)
+    deleteJwt()
+    const newState = R.assocPath(['current', 'user'], undefined, state)
+    return R.assoc('entities', {}, newState)
   }
 
 })
@@ -359,8 +367,7 @@ Effect('login', ({username, password}) => {
       password: password
     }),
     headers: new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${getJwt()}`
+      'Content-Type': 'application/json'
     })
   })
   .then(res => interpretApiResponse(res))

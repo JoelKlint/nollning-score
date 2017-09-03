@@ -1,6 +1,5 @@
 import EventDetail from './EventDetail'
 import { connect } from 'react-redux'
-import R from 'ramda'
 import {
   getCurrentUser,
   getCurrentEvent

@@ -46,14 +46,14 @@ export default IntervalReviewChart
 /**
  * Twists a tick. Hand as tick prop to <*Axis/> component
  */
-class CustomizedAxisTick extends React.Component {
-  render () {
-    const {x, y, stroke, payload} = this.props;
+// class CustomizedAxisTick extends React.Component {
+//   render () {
+//     const {x, y, stroke, payload} = this.props;
 
-   	return (
-    	<g transform={`translate(${x},${y})`}>
-        <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-45)">{payload.value}</text>
-      </g>
-    );
-  }
-}
+//    	return (
+//     	<g transform={`translate(${x},${y})`}>
+//         <text x={0} y={0} dy={16} textAnchor="end" fill="#666" transform="rotate(-45)">{payload.value}</text>
+//       </g>
+//     );
+//   }
+// }

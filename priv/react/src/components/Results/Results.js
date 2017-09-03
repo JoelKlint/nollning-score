@@ -3,8 +3,7 @@ import './Results.css'
 
 class Results extends Component {
 
-  constructor(props) {
-    super(props)
+  componentWillMount(props) {
     props.getData()
   }
 

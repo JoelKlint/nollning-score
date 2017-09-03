@@ -10,15 +10,17 @@ class Slider extends Component {
     localScore: this.props.score.value
   }
 
-  render() {
-    const { category, sendScoreToBackend, score } = this.props
-    const { localScore } = this.state
-
+  componentWillReceiveProps(nextProps) {
     // Set backend score to localScore if localScore does not exist but backend does
     // Used to make slider show initial score correctly
-    if(!isNil(score.value) && isNil(localScore)) {
-      this.setState({localScore: score.value})
+    if(!isNil(nextProps.score.value) && isNil(this.state.localScore)) {
+      this.setState({localScore: nextProps.score.value})
     }
+  }
+
+  render() {
+    const { category, sendScoreToBackend } = this.props
+    const { localScore } = this.state
 
     return (
       <div className="Slider_Base">

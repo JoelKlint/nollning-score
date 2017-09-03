@@ -13,8 +13,7 @@ import { Actions } from 'jumpstate'
 
 class App extends React.Component {
 
-  constructor(props) {
-    super(props)
+  componentWillMount(props) {
     Actions.getCurrentUser()
   }
 
