@@ -2,6 +2,9 @@
 
 To start your Phoenix app:
 
+  * Start psql server
+    * `docker run --rm -d -p 5432:5432 -e "POSTGRES_USER=$(whoami)" postgres:11.1-alpine`
+
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
   * Install Node.js dependencies with `npm install`
