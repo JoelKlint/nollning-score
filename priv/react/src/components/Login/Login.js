@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './Login.css'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Actions } from 'jumpstate'
+import Actions from '../../state/Actions'
 import { Redirect } from 'react-router-dom'
 
 class Login extends Component {

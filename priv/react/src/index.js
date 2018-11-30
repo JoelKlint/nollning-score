@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import { CreateJumpstateMiddleware } from 'jumpstate'
+import { getStore } from './state';
 
 // Required by material-ui
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -11,18 +10,9 @@ injectTapEventPlugin();
 
 import './index.css';
 
-import State from './state/State'
-
 import App from './App'
 
-import logger from 'redux-logger'
-const store = createStore(
-  State,
-  applyMiddleware(
-    CreateJumpstateMiddleware(),
-    logger,
-  )
-)
+const store = getStore()
 
 ReactDOM.render(
   <Provider store={store}>

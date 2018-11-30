@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import './SelectInput.css'
-import { Actions } from 'jumpstate'
+import Actions from '../../../state/Actions'
 
 class SelectInput extends Component {
 

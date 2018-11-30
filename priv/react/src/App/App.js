@@ -9,7 +9,7 @@ import EventPicker from '../components/EventPicker'
 import EventDetail from '../components/EventDetail'
 import Login from '../components/Login'
 
-import { Actions } from 'jumpstate'
+import Actions from '../state/Actions'
 
 class App extends React.Component {
 

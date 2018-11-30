@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './EventDetail.css'
-import { Actions } from 'jumpstate'
+import Actions from '../../state/Actions'
 import { Route, Switch } from 'react-router-dom'
 
 import RaisedButton from 'material-ui/RaisedButton';

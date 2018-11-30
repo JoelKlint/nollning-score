@@ -1,7 +1,7 @@
 import TotalResults from './TotalResults'
 import { connect } from 'react-redux'
 import R from 'ramda'
-import { Actions } from 'jumpstate'
+import Actions from '../../state/Actions'
 
 const stateful = connect(state => {
   const resultByGuild = R.pipe(

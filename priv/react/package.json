@@ -5,8 +5,8 @@
   "dependencies": {
     "color": "^2.0.0",
     "flow-bin": "^0.53.1",
-    "jumpstate": "^2.2.2",
     "material-ui": "^0.18.7",
+    "node-sass": "^4.10.0",
     "node-sass-chokidar": "0.0.3",
     "normalizr": "^3.2.3",
     "ramda": "^0.24.0",
@@ -17,11 +17,12 @@
     "react-router-dom": "^4.1.1",
     "react-tap-event-plugin": "^2.0.1",
     "recharts": "^1.0.0-alpha.3",
-    "redux": "^3.6.0",
+    "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "reselect": "^3.0.1"
   },
   "devDependencies": {
+    "npm-run-all": "^4.1.5",
     "react-scripts": "0.9.5"
   },
   "scripts": {

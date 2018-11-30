@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './GuildPicker.css'
-import { Actions } from 'jumpstate'
+import Actions from '../../state/Actions'
 
 import GuildPickerButton from '../GuildPickerButton'
 
@@ -16,8 +16,8 @@ class GuildPicker extends Component {
                 <div className="GuildPicker_Buttons">
                     {this.props.guilds.map((g, i) => {
                         return (
-                            <GuildPickerButton 
-                                key={i} 
+                            <GuildPickerButton
+                                key={i}
                                 guild={g}
                                 active={this.props.currentGuild.id === g.id}
                                 onClick={() => Actions.setCurrentGuild(g.id)}
