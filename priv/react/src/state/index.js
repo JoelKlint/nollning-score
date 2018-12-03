@@ -1,15 +1,18 @@
 import {
-  createStore
+  createStore,
+  applyMiddleware,
 } from 'redux'
+import logger from 'redux-logger'
 import { data } from './Reducer'
 
 
 let _store = null
 
-// TODO: inject redux logger middleware
-
 const initStore = () => {
-  _store = createStore(data)
+  _store = createStore(
+    data,
+    applyMiddleware(logger)
+  )
   // TODO: implement hot module reloading
 }
 
