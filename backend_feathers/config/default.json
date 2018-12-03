@@ -28,6 +28,11 @@
       "entity": "user",
       "usernameField": "email",
       "passwordField": "password"
+    },
+    "cookie": {
+      "enabled": true,
+      "httpOnly": true,
+      "secure": true
     }
   },
   "mysql": "mysql://root:root@0.0.0.0:3306/backend_feathers"
