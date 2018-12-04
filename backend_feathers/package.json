@@ -26,7 +26,8 @@
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "dev": "nodemon src/",
     "start": "nodemon src/",
-    "jest": "jest"
+    "jest": "jest",
+    "db:seed": "node seeds.js"
   },
   "dependencies": {
     "@feathersjs/authentication": "^2.1.13",
