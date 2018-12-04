@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@feathersjs/client": "^3.7.5",
     "color": "^2.0.0",
     "flow-bin": "^0.53.1",
     "material-ui": "^0.18.7",
