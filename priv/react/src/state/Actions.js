@@ -42,7 +42,9 @@ feathersClient.configure(
   feathers.rest(API_BASE_URL).fetch(window.fetch)
 )
 feathersClient.configure(
-  feathers.authentication()
+  feathers.authentication({
+    storage: window.localStorage
+  })
 )
 
 
