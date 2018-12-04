@@ -74,13 +74,15 @@ const Actions = {
   },
 
   getAllEvents: () => {
-    return fetch(`${API_BASE_URL}/api/events`, {
-      headers: new Headers({
-        'Authorization': `Bearer ${getJwt()}`
+    feathersClient.service('events').find()
+    .then(events => {
+      const category = new schema.Entity('categories')
+      const event = new schema.Entity('events', {
+        categories: [category]
       })
+      const normalized = normalize(events, [event])
+      Actions.updateEntities(normalized.entities)
     })
-    .then(res => interpretApiResponse(res))
-    .catch(err => console.error(err))
   },
   getEvent: id => {
     return fetch(`${API_BASE_URL}/api/events/${id}`, {
