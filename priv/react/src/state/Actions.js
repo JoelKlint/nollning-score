@@ -1,3 +1,4 @@
+import feathers from '@feathersjs/client'
 import { getStore } from './index'
 import {
   UPDATE_ENTITIES,
@@ -8,8 +9,12 @@ import {
 } from './ActionTypes';
 import {
   interpretApiResponse,
-  getJwt
+  getJwt,
 } from './Reducer'
+import {
+  schema,
+  normalize
+} from 'normalizr'
 
 /**
  * Setup URL for the backend
@@ -18,7 +23,7 @@ let API_BASE_URL
 switch(process.env.NODE_ENV) {
   case 'test':
   case 'development':
-    API_BASE_URL = process.env.REACT_APP_NOLLNING_SCORE_BACKEND_URL || 'http://localhost:4000'
+    API_BASE_URL = process.env.REACT_APP_NOLLNING_SCORE_BACKEND_URL || 'http://localhost:3030'
     break;
   case 'production':
     API_BASE_URL = ''
@@ -28,6 +33,18 @@ switch(process.env.NODE_ENV) {
     API_BASE_URL = ''
     break;
 }
+
+/**
+ * Create feathers client
+ */
+const feathersClient = feathers();
+feathersClient.configure(
+  feathers.rest(API_BASE_URL).fetch(window.fetch)
+)
+feathersClient.configure(
+  feathers.authentication()
+)
+
 
 const action = (type, payload) => {
   return {
@@ -153,20 +170,21 @@ const Actions = {
     .catch(err => console.error(err))
   },
   login: ({username, password}) => {
-    return fetch(`${API_BASE_URL}/api/login`, {
-      method: 'post',
-      body: JSON.stringify({
-        username: username,
-        password: password
-      }),
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      })
+    return feathersClient.authenticate({
+      strategy: 'local',
+      email: username,
+      password,
+    }).then(res => {
+      return feathersClient.service('me').find()
+    }).then(user => {
+      const userSchema = new schema.Entity('users')
+      const normalized = normalize(user, userSchema)
+      Actions.updateEntities(normalized.entities)
+      Actions.setCurrentUser(user.id)
     })
-    .then(res => interpretApiResponse(res))
   },
   getCurrentUser: () => {
-    return fetch(`${API_BASE_URL}/api/me`, {
+    return fetch(`${API_BASE_URL}/me`, {
       headers: new Headers({
         'Authorization': `Bearer ${getJwt()}`
       })
