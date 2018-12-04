@@ -96,13 +96,12 @@ const Actions = {
     })
   },
   getAllGuilds: () => {
-    return fetch(`${API_BASE_URL}/api/guilds`, {
-      headers: new Headers({
-        'Authorization': `Bearer ${getJwt()}`
-      })
+    return feathersClient.service('guilds').find()
+    .then(guilds => {
+      const guildSchema = new schema.Entity('guilds')
+      const normalized = normalize(guilds, [guildSchema])
+      Actions.updateEntities(normalized.entities)
     })
-    .then(res => interpretApiResponse(res))
-    .catch(err => console.error(err))
   },
   getAllCategoriesForEvent: (id) => {
     return fetch(`${API_BASE_URL}/api/events/${id}/categories`, {
