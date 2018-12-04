@@ -186,13 +186,13 @@ const Actions = {
     })
   },
   getCurrentUser: () => {
-    return fetch(`${API_BASE_URL}/me`, {
-      headers: new Headers({
-        'Authorization': `Bearer ${getJwt()}`
-      })
+    return feathersClient.service('me').find()
+    .then(user => {
+      const userSchema = new schema.Entity('users')
+      const normalized = normalize(user, userSchema)
+      Actions.updateEntities(normalized.entities)
+      Actions.setCurrentUser(user.id)
     })
-    .then(res => interpretApiResponse(res))
-    .catch(err => console.error(err))
   }
 }
 
