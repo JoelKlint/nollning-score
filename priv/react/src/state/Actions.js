@@ -29,9 +29,8 @@ switch(process.env.NODE_ENV) {
     API_BASE_URL = ''
     break;
   default:
-    throw new Error(`Unknown node environment: ${String(process.env.NODE_ENV)}`)
     API_BASE_URL = ''
-    break;
+    throw new Error(`Unknown node environment: ${String(process.env.NODE_ENV)}`)
 }
 
 /**
