@@ -29,7 +29,7 @@ switch(process.env.NODE_ENV) {
     API_BASE_URL = ''
     break;
   default:
-    console.error(`Unknown node environment: ${String(process.env.NODE_ENV)}`)
+    throw new Error(`Unknown node environment: ${String(process.env.NODE_ENV)}`)
     API_BASE_URL = ''
     break;
 }
