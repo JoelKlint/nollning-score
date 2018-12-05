@@ -104,13 +104,19 @@ const Actions = {
     })
   },
   getAllCategoriesForEvent: (id) => {
-    return fetch(`${API_BASE_URL}/api/events/${id}/categories`, {
-      headers: new Headers({
-        'Authorization': `Bearer ${getJwt()}`
-      })
+    return feathersClient.service('categories').find({
+      query: { eventId: id, populated: true },
     })
-    .then(res => interpretApiResponse(res))
-    .catch(err => console.error(err))
+    .then(categories => {
+      const eventSchema = new schema.Entity('events')
+      const guildSchema = new schema.Entity('guilds')
+      const categorySchema = new schema.Entity('categories', {
+        event: eventSchema,
+        selected_build: guildSchema
+      })
+      const normalized = normalize(categories, [categorySchema])
+      Actions.updateEntities(normalized.entities)
+    })
   },
   getAllScoresForEvent: id => {
     return fetch(`${API_BASE_URL}/api/events/${id}/scores`, {
