@@ -29,7 +29,9 @@ class Slider extends Component {
           <div className="SliderWrapper">
             <RcSlider
               onChange={val => {
-                if(Math.abs(val-this.state.localScore) === 1) {
+                if (this.state.localScore === undefined) {
+                  this.setState({localScore: val})
+                } else if(Math.abs(val-this.state.localScore) === 1) {
                   this.setState({localScore: val})
                 }
               }}
