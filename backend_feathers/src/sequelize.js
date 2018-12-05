@@ -63,7 +63,9 @@ module.exports = function (app) {
     });
 
     // Sync to the database
-    sequelize.sync();
+    sequelize.sync({
+      force: false
+    });
 
     return result;
   };
