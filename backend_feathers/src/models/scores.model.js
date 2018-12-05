@@ -3,6 +3,7 @@
 const Sequelize = require('sequelize');
 const DataTypes = Sequelize.DataTypes;
 
+// TODO: Create unique indexes
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
   const scores = sequelizeClient.define('scores', {
