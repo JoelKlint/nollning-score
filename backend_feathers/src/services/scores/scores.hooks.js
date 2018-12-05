@@ -1,8 +1,13 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
+const populateSequelizeModel = require('../../hooks/populateSequelizeModel');
 
 module.exports = {
   before: {
-    all: [ authenticate('jwt') ],
+    all: [
+      authenticate('jwt'),
+      // TODO: Limit so users can only read their own scores
+      populateSequelizeModel(),
+    ],
     find: [],
     get: [],
     create: [],
