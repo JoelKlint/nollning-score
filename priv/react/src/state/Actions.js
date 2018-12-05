@@ -74,7 +74,7 @@ const Actions = {
   },
 
   getAllEvents: () => {
-    feathersClient.service('events').find()
+    return feathersClient.service('events').find()
     .then(events => {
       const category = new schema.Entity('categories')
       const event = new schema.Entity('events', {
