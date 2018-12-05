@@ -119,13 +119,34 @@ const Actions = {
     })
   },
   getAllScoresForEvent: id => {
-    return fetch(`${API_BASE_URL}/api/events/${id}/scores`, {
-      headers: new Headers({
-        'Authorization': `Bearer ${getJwt()}`
+    return feathersClient.service('categories').find({
+      query: {
+        $select: ['id'],
+        eventId: id
+      }
+    })
+    .then(categories => {
+      return feathersClient.service('scores').find({
+        query: {
+          categoryId: {
+            $in: categories.map(c => c.id)
+          },
+          populated: true
+        }
       })
     })
-    .then(res => interpretApiResponse(res))
-    .catch(err => console.error(err))
+    .then(scores => {
+      const guildSchema = new schema.Entity('guilds')
+      const categorySchema = new schema.Entity('categories')
+      const userSchema = new schema.Entity('users')
+      const scoreSchema = new schema.Entity('scores', {
+        category: categorySchema,
+        guild: guildSchema,
+        user: userSchema
+      })
+      const normalized = normalize(scores, [scoreSchema])
+      Actions.updateEntities(normalized.entities)
+    })
   },
   setScoreForCategoryAndGuild: payload => {
     return fetch(`${API_BASE_URL}/api/categories/${payload.category_id}/scores`,
