@@ -149,22 +149,27 @@ const Actions = {
     })
   },
   setScoreForCategoryAndGuild: payload => {
-    return fetch(`${API_BASE_URL}/api/categories/${payload.category_id}/scores`,
-    {
-      method: 'post',
-      body: JSON.stringify({
-        score: {
-          value: payload.value,
-          guild_id: payload.guild_id
+    return feathersClient.service('scores').patch(
+      null,
+      { value: payload.value },
+      {
+        query: {
+          categoryId: payload.category_id,
+          guildId: payload.guild_id
         }
-      }),
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getJwt()}`
+      }
+    ).then(scores => {
+      const guildSchema = new schema.Entity('guilds')
+      const categorySchema = new schema.Entity('categories')
+      const userSchema = new schema.Entity('users')
+      const scoreSchema = new schema.Entity('scores', {
+        category: categorySchema,
+        guild: guildSchema,
+        user: userSchema
       })
+      const normalized = normalize(scores, [scoreSchema])
+      Actions.updateEntities(normalized.entities)
     })
-    .then(res => interpretApiResponse(res))
-    .catch(err => console.error(err))
   },
   selectGuildWonCategory: payload => {
     return fetch(`${API_BASE_URL}/api/categories/${payload.category_id}/scores`, {
