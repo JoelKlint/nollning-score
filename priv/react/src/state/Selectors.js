@@ -102,7 +102,7 @@ export const getAllCategories = (state: Object): Map<number, Category> => R.path
 export const getCategoriesForCurrentEvent = createSelector(
   [getAllCategories, getCurrentEvent],
   (allCategories, currentEvent): Map<number, Category> => {
-    return R.filter(c => c.event === currentEvent.id)(allCategories)
+    return R.filter(c => c.eventId === currentEvent.id)(allCategories)
   }
 )
 
@@ -132,7 +132,7 @@ export const getAllScores = (state: Object): Map<number, Score> => R.pathOr({}, 
 export const getScoresByUser = createSelector(
   [getAllScores, getCurrentUser],
   (scores, user): Map<number, Score> => {
-    return R.filter(s => s.user === user.id)(scores)
+    return R.filter(s => s.userId === user.id)(scores)
   }
 )
 
@@ -154,7 +154,7 @@ export const getUserHasAnsweredEverythingForEventByGuild = createSelector(
           case "interval":
           case "integer":
           case "boolean":
-            return R.any(s => s.category === c.id && s.guild === g.id)(R.values(scores))
+            return R.any(s => s.categoryId === c.id && s.guildId === g.id)(R.values(scores))
           case "guild":
             return R.type(c.selected_guild) === "Number"
           default:
@@ -196,7 +196,7 @@ export const getUserHasAnsweredEverythingForEvent = createSelector(
 export const getScoresForCurrentEvent = createSelector(
   [getAllScores, getCurrentEvent],
   (scores, event): Map<number, score> => {
-    return R.filter(s => R.contains(s.category, event.categories))(scores)
+    return R.filter(s => R.contains(s.categoryId, event.categories))(scores)
   }
 )
 
@@ -208,7 +208,7 @@ export const getScoresForCurrentEvent = createSelector(
 export const getScoresForCategory = (state: Object, props: Object): Map<number, Score> => {
   const categoryId = props.categoryId
   const allScores = R.pathOr({}, ['entities', 'scores'], state)
-  return R.filter(s => s.category === categoryId)(allScores)
+  return R.filter(s => s.categoryId === categoryId)(allScores)
 }
 
 /**
@@ -220,7 +220,7 @@ export const getScoreForCategoryAndCurrentGuild = createSelector(
   (scores, guild): Score => {
     return R.pipe(
       R.values(),
-      R.find(s => s.guild === guild.id)
+      R.find(s => s.guildId === guild.id)
     )(scores) || {}
   }
 )
