@@ -22,6 +22,7 @@ module.exports = function (app) {
   events.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    events.hasMany(models.categories);
   };
 
   return events;

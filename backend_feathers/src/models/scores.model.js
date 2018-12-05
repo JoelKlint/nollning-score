@@ -22,6 +22,9 @@ module.exports = function (app) {
   scores.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    scores.belongsTo(models.categories);
+    scores.belongsTo(models.guilds);
+    scores.belongsTo(models.users);
   };
 
   return scores;

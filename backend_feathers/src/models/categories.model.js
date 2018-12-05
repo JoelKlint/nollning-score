@@ -47,6 +47,9 @@ module.exports = function (app) {
   categories.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    categories.belongsTo(models.events);
+    categories.hasMany(models.scores);
+    categories.belongsTo(models.guilds, { as: 'selected_guild' });
   };
 
   return categories;

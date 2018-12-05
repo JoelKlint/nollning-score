@@ -28,6 +28,7 @@ module.exports = function (app) {
   guilds.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    guilds.hasMany(models.scores);
   };
 
   return guilds;
