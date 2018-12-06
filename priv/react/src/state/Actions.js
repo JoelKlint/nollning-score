@@ -110,9 +110,11 @@ const Actions = {
     .then(categories => {
       const eventSchema = new schema.Entity('events')
       const guildSchema = new schema.Entity('guilds')
+      const scoreSchema = new schema.Entity('scores')
       const categorySchema = new schema.Entity('categories', {
         event: eventSchema,
-        selected_build: guildSchema
+        selected_build: guildSchema,
+        scores: [scoreSchema]
       })
       const normalized = normalize(categories, [categorySchema])
       Actions.updateEntities(normalized.entities)
