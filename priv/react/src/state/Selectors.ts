@@ -3,42 +3,6 @@ import { createSelector } from 'reselect'
 import R from 'ramda'
 import { IState } from './Reducer';
 
-type Category = {
-  name: string,
-  type: 'interval' | 'integer' | 'boolean' | 'guild',
-  absolute: boolean,
-  global: boolean,
-  weight: number,
-  interval_min: number,
-  interval_max: number,
-  event: number,
-  scores: Array<number>,
-  selected_guild: number
-}
-
-type Event = {
-  name?: string,
-  categories?: Array<number>
-}
-
-type Guild = {
-  name: string,
-  color: string,
-  scores: Array<number>
-}
-
-type Score = {
-  value: number,
-  category: number,
-  guild: number,
-  user: number
-}
-
-type User = {
-  username: string,
-  role: 'basic' | 'admin',
-}
-
 /**
  * Returns the current event
  * @param {object} state
