@@ -4,7 +4,7 @@ import R from 'ramda'
 
 import {
   getUserHasAnsweredEverythingForEvent,
-  getIsAdmin
+  getCurrentUserIsAdmin
 } from '../../state/Selectors'
 
 const stateful = connect((state, props) => {
@@ -15,7 +15,7 @@ const stateful = connect((state, props) => {
       R.values()
     )(state),
     answeredEverything: getUserHasAnsweredEverythingForEvent(state),
-    isAdmin: getIsAdmin(state),
+    isAdmin: getCurrentUserIsAdmin(state),
     goToNextScreen: () => props.history.push(`/events/${state.current.event}/contributions`)
   }
 })

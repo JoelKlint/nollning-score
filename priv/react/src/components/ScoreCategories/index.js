@@ -10,7 +10,7 @@ import R from 'ramda'
 const stateful = connect((state, props) => {
   return {
     categories: R.pipe(getCategoriesForCurrentEvent, R.values())(state),
-    user: getCurrentUser(state),
+    user: getCurrentUser(state) || {},
     currentGuild: getCurrentGuild(state) || {},
     goToNextScreen: () => props.history.push(`/events/${state.current.event}/review`)
   }

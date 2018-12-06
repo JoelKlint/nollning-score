@@ -37,22 +37,24 @@ export const getCurrentGuild = createSelector(
   }
 )
 
-/**
- * Returns the current user
- * @param {*} state
- */
-export const getCurrentUser = (state: IState): IUser => {
-  const userId = state.current.user || ''
-  return R.pathOr({}, ['entities', 'users', userId])(state)
+
+const getAllUsers: TSelector<ById<IUser>> = state => {
+  return state.entities.users
 }
 
-/**
- * Returns a boolean value representating the admin status of the current user
- */
-export const getIsAdmin = createSelector(
-  [ getCurrentUser ],
-  (user): boolean => {
-    return user.role === 'admin'
+export const getCurrentUser = createSelector(
+  [getState, getAllUsers], (state, users) => {
+    if (state.current.user) {
+      return users[state.current.user]
+    } else {
+      return undefined
+    }
+  }
+)
+
+export const getCurrentUserIsAdmin = createSelector(
+  [getCurrentUser], (user) => {
+    return user ? user.role === 'admin' : false
   }
 )
 
@@ -91,6 +93,9 @@ export const getCategoriesForCurrentEvent = createSelector(
 export const getCategoriesEditableByUserForCurrentEvent = createSelector(
   [getCategoriesForCurrentEvent, getCurrentUser],
   (categoriesForCurrentEvent, currentUser): { [key: number]: ICategory} => {
+    if (!currentUser) {
+      return {}
+    }
     switch(currentUser.role) {
       case "basic":
         let result: { [key: number]: ICategory } = {}
@@ -118,6 +123,9 @@ export const getAllScores = (state: IState): { [key: number]: IScore } => {
 export const getScoresByUser = createSelector(
   [getAllScores, getCurrentUser],
   (scores, user): { [key: number]: IScore } => {
+    if (!user) {
+      return {}
+    }
     let result: { [key: number]: IScore } = {}
     for (let id in scores) {
       if(scores[id].userId === user.id) {
