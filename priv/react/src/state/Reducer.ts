@@ -15,13 +15,20 @@ import {
   Action,
   Reducer
 } from 'redux';
+import { ById } from './Selectors';
 
 interface IAction extends Action {
   payload?: any
 }
 // TODO: Define state better
 export interface IState {
-  entities: any,
+  entities: {
+    categories: ById<ICategory>
+    events: ById<IEvent>
+    guilds: ById<IGuild>
+    scores: ById<IScore>
+    users: ById<IUser>
+  },
   current: {
     event?: number,
     guild?: number,
@@ -54,8 +61,14 @@ const deleteJwt = () => {
 /**
  * Define reducer
  */
-const initialState = {
-  entities: {},
+const initialState: IState = {
+  entities: {
+    categories: {},
+    events: {},
+    guilds: {},
+    scores: {},
+    users: {},
+  },
   current: {
     event: undefined,
     guild: undefined,

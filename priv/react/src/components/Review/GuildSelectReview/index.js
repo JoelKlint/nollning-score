@@ -1,13 +1,15 @@
 import GuildSelectReview from './GuildSelectReview'
 import { connect } from 'react-redux'
-import { getGuild } from '../../../state/Selectors'
+import { getAllGuilds } from '../../../state/Selectors'
 
 const stateful = connect((state, props) => {
 
   const { category } = props
+  const guilds = getAllGuilds(state)
+  const guild = guilds[category.selectedGuildId]
 
   return {
-    guild: getGuild(state, category.selected_guild)
+    guild: guild
   }
 })
 

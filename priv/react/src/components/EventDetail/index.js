@@ -8,7 +8,7 @@ import Actions from '../../state/Actions'
 
 const stateful = connect((state, props) => {
   return {
-    event: getCurrentEvent(state),
+    event: getCurrentEvent(state) || {},
     user: getCurrentUser(state),
     logOut: () => Actions.logOut()
   }

@@ -8,7 +8,7 @@ import Actions from '../../state/Actions'
 
 const stateful = connect((state, { category }) => {
 
-  const currentGuild = getCurrentGuild(state)
+  const currentGuild = getCurrentGuild(state) || {}
 
   const setCheckedInBackend = (boolean) => {
     Actions.setScoreForCategoryAndGuild({

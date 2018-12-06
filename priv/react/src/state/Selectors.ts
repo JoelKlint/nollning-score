@@ -1,43 +1,41 @@
 // @flow
-import { createSelector } from 'reselect'
+import { createSelector, Selector } from 'reselect'
 import R from 'ramda'
 import { IState } from './Reducer';
 
-/**
- * Returns the current event
- * @param {object} state
- */
-export const getCurrentEvent = (state: IState): IEvent => {
-  const eventId = state.current.event || ''
-  return R.pathOr({}, ['entities', 'events', eventId])(state)
+type TSelector<R> = Selector<IState, R>
+export type ById<T> = { [key: number]: T }
+
+const getState: TSelector<IState> = state => state
+
+export const getAllEvents: TSelector<ById<IEvent>> = state => {
+  return state.entities.events
 }
 
-/**
- * Returns all guilds by id in a map
- * @param {*} state
- */
-export const getAllGuilds = (state: IState): { [key: number]: IGuild } => {
-  return R.pathOr({}, ['entities', 'guilds'])(state)
+export const getCurrentEvent = createSelector(
+  [ getState, getAllEvents ], (state, events) => {
+    if (state.current.event) {
+      return events[state.current.event]
+    } else {
+      return undefined
+    }
+  }
+)
+
+
+export const getAllGuilds: TSelector<ById<IGuild>> = state => {
+  return state.entities.guilds
 }
 
-/**
- * Returns the specified guild
- * @param {*} state
- * @param {number} id
- */
-export const getGuild = (state: IState, id: number): IGuild => {
-  return R.pathOr({}, ['entities', 'guilds', id])(state)
-}
-
-/**
- * Returns the current guild
- * @param {*} state
- */
-export const getCurrentGuild = (state: IState): IGuild => {
-  const guildId = state.current.guild || ''
-  const guild = R.pathOr({}, ['entities', 'guilds', guildId])(state)
-  return guild
-}
+export const getCurrentGuild = createSelector(
+  [getState, getAllGuilds], (state, guilds) => {
+    if (state.current.guild) {
+      return guilds[state.current.guild]
+    } else {
+      return undefined
+    }
+  }
+)
 
 /**
  * Returns the current user
@@ -73,6 +71,9 @@ export const getAllCategories = (state: IState): { [key: number]: ICategory } =>
 export const getCategoriesForCurrentEvent = createSelector(
   [getAllCategories, getCurrentEvent],
   (allCategories, currentEvent): { [key: number]: ICategory } => {
+    if (!currentEvent) {
+      return {}
+    }
     let result: { [key: number]: ICategory } = {}
     for (let id in allCategories) {
       if(allCategories[id].eventId === currentEvent.id) {
