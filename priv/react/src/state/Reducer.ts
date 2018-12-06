@@ -10,7 +10,24 @@ import {
   SET_CURRENT_USER,
   LOG_OUT
 } from './ActionTypes'
-import Actions from '../state/Actions'
+import Actions from './Actions'
+import {
+  Action,
+  Reducer
+} from 'redux';
+
+interface IAction extends Action {
+  payload?: any
+}
+// TODO: Define state better
+export interface IState {
+  entities: any,
+  current: {
+    event?: number,
+    guild?: number,
+    user?: number
+  }
+}
 
 /**
  * Holds the jwt for when localStorage is not accessible
@@ -46,8 +63,7 @@ const initialState = {
   }
 }
 
-export const data = (state = initialState, action) => {
-
+export const data: Reducer<IState> = (state = initialState, action: IAction) => {
   const { payload } = action
 
   switch (action.type) {
@@ -87,15 +103,16 @@ export const data = (state = initialState, action) => {
 * - Add entities to state
 *
 */
-const addApiResponseToState = (res) => {
+// TODO: Remove this
+const addApiResponseToState = (res: any) => {
   return new Promise((resolve, reject) => {
-    let normalized = {}
 
     let category, event, guild, score, result, user, contribution
 
     switch(res.type) {
 
-      case "login":
+      case "login": {
+
         try {
           // Store token in local localStorage so it can be retrieved later
           localStorage.setItem('jwt', res.data.jwt)
@@ -106,40 +123,42 @@ const addApiResponseToState = (res) => {
         }
 
         user = new schema.Entity('users')
-        normalized = normalize(res.data.user, user)
+        const normalized = normalize(res.data.user, user)
 
         Actions.updateEntities(normalized.entities)
         Actions.setCurrentUser(res.data.user.id)
         break;
+      }
 
-      case "events":
+      case "events": {
         category = new schema.Entity('categories')
         event = new schema.Entity('events', {
             categories: [category]
         })
 
-        normalized = normalize(res.data, [event])
+        const normalized = normalize(res.data, [event])
         Actions.updateEntities(normalized.entities)
         break;
-
-      case "event":
+      }
+      case "event": {
         category = new schema.Entity('categories')
         event = new schema.Entity('events', {
             categories: [category]
         })
 
-        normalized = normalize(res.data, event)
+        const normalized = normalize(res.data, event)
         Actions.updateEntities(normalized.entities)
         break;
-
-      case "guilds":
+      }
+      case "guilds": {
         guild = new schema.Entity('guilds')
 
-        normalized = normalize(res.data, [guild])
+        const normalized = normalize(res.data, [guild])
         Actions.updateEntities(normalized.entities)
         break;
+      }
 
-      case "category":
+      case "category": {
         event = new schema.Entity('events')
         guild = new schema.Entity('guilds')
         category = new schema.Entity('categories', {
@@ -147,11 +166,12 @@ const addApiResponseToState = (res) => {
             selected_guild: guild
         })
 
-        normalized = normalize(res.data, category)
+        const normalized = normalize(res.data, category)
         Actions.updateEntities(normalized.entities)
         break;
+      }
 
-      case "categories":
+      case "categories": {
         event = new schema.Entity('events')
         guild = new schema.Entity('guilds')
         category = new schema.Entity('categories', {
@@ -159,11 +179,12 @@ const addApiResponseToState = (res) => {
             selected_guild: guild
         })
 
-        normalized = normalize(res.data, [category])
+        const normalized = normalize(res.data, [category])
         Actions.updateEntities(normalized.entities)
         break;
+      }
 
-      case "score":
+      case "score": {
         guild = new schema.Entity('guilds')
         category = new schema.Entity('categories')
         user = new schema.Entity('users')
@@ -173,11 +194,12 @@ const addApiResponseToState = (res) => {
           user: user
         })
 
-        normalized = normalize(res.data, score)
+        const normalized = normalize(res.data, score)
         Actions.updateEntities(normalized.entities)
         break;
+      }
 
-      case "scores":
+      case "scores": {
         guild = new schema.Entity('guilds')
         category = new schema.Entity('categories')
         user = new schema.Entity('users')
@@ -187,41 +209,46 @@ const addApiResponseToState = (res) => {
             user: user
         })
 
-        normalized = normalize(res.data, [score])
+        const normalized = normalize(res.data, [score])
         Actions.updateEntities(normalized.entities)
         break;
+      }
 
-      case "results":
+      case "results": {
         guild = new schema.Entity('guilds')
         event = new schema.Entity('events')
         result = new schema.Entity('results', {
             guild: guild,
             event: event,
         })
-        normalized = normalize(res.data, [result])
+        const normalized = normalize(res.data, [result])
         Actions.updateEntities(normalized.entities)
         break;
+      }
 
-      case "contributions":
+      case "contributions": {
         guild = new schema.Entity('guilds')
         event = new schema.Entity('events')
         contribution = new schema.Entity('contributions', {
             guild: guild,
             event: event,
         })
-        normalized = normalize(res.data, [contribution])
+        const normalized = normalize(res.data, [contribution])
         Actions.updateEntities(normalized.entities)
         break;
+      }
 
-      case "me":
+      case "me": {
         user = new schema.Entity('users')
-        normalized = normalize(res.data, user)
+        const normalized = normalize(res.data, user)
         Actions.updateEntities(normalized.entities)
         Actions.setCurrentUser(res.data.id)
         break;
+      }
 
-      default:
+      default: {
         reject(new Error("Unknown response type: " + JSON.stringify(res)))
+      }
 
     }
 
@@ -230,7 +257,7 @@ const addApiResponseToState = (res) => {
   })
 }
 
-export const interpretApiResponse = (res) => {
+export const interpretApiResponse = (res: Response) => {
   return new Promise((resolve, reject) => {
     switch(res.status) {
       case 201:

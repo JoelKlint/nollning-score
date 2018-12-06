@@ -60,7 +60,7 @@ class ReviewScore extends Component {
           onClick={() => {
             let shouldNavigate = true
             if(!answeredEverything) {
-              shouldNavigate = confirm(`
+              shouldNavigate = window.confirm(`
                 You have not answered everything!
 
                 Click OK to continue anyway

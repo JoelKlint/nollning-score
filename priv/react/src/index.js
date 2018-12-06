@@ -2,15 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import { getStore } from './state';
-
-// Required by material-ui
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
-
+import App from './App'
 import './index.css';
 
-import App from './App'
+// Required by material-ui
+injectTapEventPlugin();
 
 const store = getStore()
 

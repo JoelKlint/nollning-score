@@ -1,6 +1,7 @@
 // @flow
 import { createSelector } from 'reselect'
 import R from 'ramda'
+import { IState } from './Reducer';
 
 type Category = {
   name: string,
@@ -42,8 +43,8 @@ type User = {
  * Returns the current event
  * @param {object} state
  */
-export const getCurrentEvent = (state: Object): Event => {
-  const eventId = state.current.event
+export const getCurrentEvent = (state: IState): IEvent => {
+  const eventId = state.current.event || ''
   return R.pathOr({}, ['entities', 'events', eventId])(state)
 }
 
@@ -51,21 +52,25 @@ export const getCurrentEvent = (state: Object): Event => {
  * Returns all guilds by id in a map
  * @param {*} state
  */
-export const getAllGuilds = (state: Object): Map<number, Guild> => R.pathOr({}, ['entities', 'guilds'])(state)
+export const getAllGuilds = (state: IState): { [key: number]: IGuild } => {
+  return R.pathOr({}, ['entities', 'guilds'])(state)
+}
 
 /**
  * Returns the specified guild
  * @param {*} state
  * @param {number} id
  */
-export const getGuild = (state: Object, id: Number): Guild => R.pathOr({}, ['entities', 'guilds', id])(state)
+export const getGuild = (state: IState, id: number): IGuild => {
+  return R.pathOr({}, ['entities', 'guilds', id])(state)
+}
 
 /**
  * Returns the current guild
  * @param {*} state
  */
-export const getCurrentGuild = (state: Object): Guild => {
-  const guildId = state.current.guild
+export const getCurrentGuild = (state: IState): IGuild => {
+  const guildId = state.current.guild || ''
   const guild = R.pathOr({}, ['entities', 'guilds', guildId])(state)
   return guild
 }
@@ -74,8 +79,8 @@ export const getCurrentGuild = (state: Object): Guild => {
  * Returns the current user
  * @param {*} state
  */
-export const getCurrentUser = (state: Object): User => {
-  const userId = state.current.user
+export const getCurrentUser = (state: IState): IUser => {
+  const userId = state.current.user || ''
   return R.pathOr({}, ['entities', 'users', userId])(state)
 }
 
@@ -93,7 +98,9 @@ export const getIsAdmin = createSelector(
  * Returns all categories by id in a map
  * @param {*} state
  */
-export const getAllCategories = (state: Object): Map<number, Category> => R.pathOr({}, ['entities', 'categories'])(state)
+export const getAllCategories = (state: IState): { [key: number]: ICategory } => {
+  return R.pathOr({}, ['entities', 'categories'])(state)
+}
 
 
 /**
@@ -101,8 +108,14 @@ export const getAllCategories = (state: Object): Map<number, Category> => R.path
  */
 export const getCategoriesForCurrentEvent = createSelector(
   [getAllCategories, getCurrentEvent],
-  (allCategories, currentEvent): Map<number, Category> => {
-    return R.filter(c => c.eventId === currentEvent.id)(allCategories)
+  (allCategories, currentEvent): { [key: number]: ICategory } => {
+    let result: { [key: number]: ICategory } = {}
+    for (let id in allCategories) {
+      if(allCategories[id].eventId === currentEvent.id) {
+        result[id] = allCategories[id]
+      }
+    }
+    return result
   }
 )
 
@@ -112,10 +125,16 @@ export const getCategoriesForCurrentEvent = createSelector(
  */
 export const getCategoriesEditableByUserForCurrentEvent = createSelector(
   [getCategoriesForCurrentEvent, getCurrentUser],
-  (categoriesForCurrentEvent, currentUser): Map<number, Category> => {
+  (categoriesForCurrentEvent, currentUser): { [key: number]: ICategory} => {
     switch(currentUser.role) {
       case "basic":
-        return R.reject(c => c.absolute === true)(categoriesForCurrentEvent)
+        let result: { [key: number]: ICategory } = {}
+        for (let id in categoriesForCurrentEvent) {
+          if(!categoriesForCurrentEvent[id].absolute) {
+            result[id] = categoriesForCurrentEvent[id]
+          }
+        }
+        return result
       case "admin":
         return categoriesForCurrentEvent
       default:
@@ -128,11 +147,19 @@ export const getCategoriesEditableByUserForCurrentEvent = createSelector(
  * Returns all scores by id in a map
  * @param {*} state
  */
-export const getAllScores = (state: Object): Map<number, Score> => R.pathOr({}, ['entities', 'scores'])(state)
+export const getAllScores = (state: IState): { [key: number]: IScore } => {
+  return R.pathOr({}, ['entities', 'scores'])(state)
+}
 export const getScoresByUser = createSelector(
   [getAllScores, getCurrentUser],
-  (scores, user): Map<number, Score> => {
-    return R.filter(s => s.userId === user.id)(scores)
+  (scores, user): { [key: number]: IScore } => {
+    let result: { [key: number]: IScore } = {}
+    for (let id in scores) {
+      if(scores[id].userId === user.id) {
+        result[id] = scores[id]
+      }
+    }
+    return result
   }
 )
 
@@ -141,38 +168,45 @@ export const getScoresByUser = createSelector(
  * describing whether the current user has answered all
  * questions for every guild
  */
+// TODO: Fix
 export const getUserHasAnsweredEverythingForEventByGuild = createSelector(
   [
     getCategoriesEditableByUserForCurrentEvent,
     getScoresByUser,
     getAllGuilds
   ],
-  (categories, scores, guilds): Map<number, boolean> => {
+  (categories, scores, guilds): { [key: number]: boolean } => {
     const categoriesAnsweredByGuild = R.map(g => {
       return R.map(c => {
+        // @ts-ignore
         switch(c.type) {
           case "interval":
           case "integer":
           case "boolean":
+          // @ts-ignore
             return R.any(s => s.categoryId === c.id && s.guildId === g.id)(R.values(scores))
           case "guild":
+          // @ts-ignore
             return R.type(c.selected_guild) === "Number"
           default:
             console.error("CATEGORY WITH RANDOM TYPE IDENTIFIED!!")
             return new Error("CATEGORY WITH RANDOM TYPE IDENTIFIED")
         }
+        // @ts-ignore
       })(categories)
+      // @ts-ignore
     })(guilds)
 
     const finishedGuilds = R.map(g => {
+      // @ts-ignore
       return R.pipe(
+        // @ts-ignore
         R.values(),
         R.all(answer => answer === true)
       )(g)
     })(categoriesAnsweredByGuild)
 
     return finishedGuilds
-
   }
 )
 
@@ -183,7 +217,9 @@ export const getUserHasAnsweredEverythingForEventByGuild = createSelector(
 export const getUserHasAnsweredEverythingForEvent = createSelector(
   [getUserHasAnsweredEverythingForEventByGuild],
   (finishedWithGuild): boolean => {
+    // @ts-ignore
     return R.pipe(
+      // @ts-ignore
       R.values(),
       R.all(answer => answer === true)
     )(finishedWithGuild)
@@ -195,7 +231,8 @@ export const getUserHasAnsweredEverythingForEvent = createSelector(
  */
 export const getScoresForCurrentEvent = createSelector(
   [getAllScores, getCurrentEvent],
-  (scores, event): Map<number, score> => {
+  (scores, event): { [key: number]: IScore } => {
+    // @ts-ignore
     return R.filter(s => R.contains(s.categoryId, event.categories))(scores)
   }
 )
@@ -205,9 +242,11 @@ export const getScoresForCurrentEvent = createSelector(
  * @param {*} state
  * @param {*} props
  */
-export const getScoresForCategory = (state: Object, props: Object): Map<number, Score> => {
+export const getScoresForCategory = (state: IState, props: Object): { [key: number]: IScore } => {
+  // @ts-ignore
   const categoryId = props.categoryId
   const allScores = R.pathOr({}, ['entities', 'scores'], state)
+  // @ts-ignore
   return R.filter(s => s.categoryId === categoryId)(allScores)
 }
 
@@ -217,9 +256,12 @@ export const getScoresForCategory = (state: Object, props: Object): Map<number, 
  */
 export const getScoreForCategoryAndCurrentGuild = createSelector(
   [getScoresForCategory, getCurrentGuild],
-  (scores, guild): Score => {
+  (scores, guild): IScore => {
+    // @ts-ignore
     return R.pipe(
+      // @ts-ignore
       R.values(),
+      // @ts-ignore
       R.find(s => s.guildId === guild.id)
     )(scores) || {}
   }
