@@ -1,25 +1,38 @@
 interface ICategory {
-  eventId?: number
-  absolute?: boolean
+  id: number
+  name?: string
   type: 'interval' | 'integer' | 'boolean' | 'guild'
+  absolute?: boolean
+  global?: boolean
+  weight?: number
+  interval_min?: number
+  interval_max?: number
+  eventId?: number
+  selected_guildId?: number
 }
 
 interface IEvent {
   id: number
-}
-
-interface IScore {
-  value?: number
-  userId?: number
-  guildId?: number
-}
-
-interface IUser {
-  id: number
-  role: 'basic' | 'admin'
+  name?: string
 }
 
 interface IGuild {
   id: number
-  color: string
+  name?: string
+  color?: string
 }
+
+interface IScore {
+  id: number
+  value?: number
+  categoryId?: number
+  guildId?: number
+  userId?: number
+}
+
+interface IUser {
+  id: number
+  email?: string
+  role: 'basic' | 'admin'
+}
+
