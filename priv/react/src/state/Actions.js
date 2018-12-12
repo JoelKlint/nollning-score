@@ -152,7 +152,6 @@ const Actions = {
     })
   },
   createScore: (score) => {
-    console.log('creating')
     return feathersClient.service('scores').create(score)
     .then(score => {
       const scoreSchema = new schema.Entity('scores')
@@ -161,7 +160,6 @@ const Actions = {
     })
   },
   updateScore: (id, score) => {
-    console.log('updating')
     return feathersClient.service('scores').patch(id, score)
     .then(score => {
       const scoreSchema = new schema.Entity('scores')
