@@ -1,26 +1,36 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const populateSequelizeModel = require('../../hooks/populateSequelizeModel');
-const associateWithUser = require('../../hooks/associateWithUser');
+const {
+  associateCurrentUser,
+  restrictToOwner
+} = require('../../hooks/authHooks');
 
 module.exports = {
   before: {
     all: [
       authenticate('jwt'),
-      // TODO: Limit so users can only read their own scores
       populateSequelizeModel(),
     ],
-    find: [],
-    get: [],
+    find: [
+      restrictToOwner(),
+    ],
+    get: [
+      restrictToOwner(),
+    ],
     create: [
-      associateWithUser(),
+      associateCurrentUser()
     ],
     update: [
-      associateWithUser(),
+      restrictToOwner(),
+      associateCurrentUser()
     ],
     patch: [
-      associateWithUser(),
+      restrictToOwner(),
+      associateCurrentUser()
     ],
-    remove: []
+    remove: [
+      restrictToOwner(),
+    ]
   },
 
   after: {
