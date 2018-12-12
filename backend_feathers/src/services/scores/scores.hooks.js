@@ -1,5 +1,4 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const populateSequelizeModel = require('../../hooks/populateSequelizeModel');
 const {
   associateCurrentUser,
   restrictToOwner
@@ -9,7 +8,6 @@ module.exports = {
   before: {
     all: [
       authenticate('jwt'),
-      populateSequelizeModel(),
     ],
     find: [
       restrictToOwner(),

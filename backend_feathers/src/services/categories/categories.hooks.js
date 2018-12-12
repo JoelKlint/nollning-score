@@ -1,11 +1,9 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const populateSequelizeModel = require('../../hooks/populateSequelizeModel');
 
 module.exports = {
   before: {
     all: [
       authenticate('jwt'),
-      populateSequelizeModel()
     ],
     find: [],
     get: [],

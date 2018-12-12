@@ -105,7 +105,9 @@ const Actions = {
   },
   getAllCategoriesForEvent: (id) => {
     return feathersClient.service('categories').find({
-      query: { eventId: id, populated: true },
+      query: {
+        eventId: id,
+      },
     })
     .then(categories => {
       const eventSchema = new schema.Entity('events')
@@ -133,7 +135,6 @@ const Actions = {
           categoryId: {
             $in: categories.map(c => c.id)
           },
-          populated: true
         }
       })
     })
