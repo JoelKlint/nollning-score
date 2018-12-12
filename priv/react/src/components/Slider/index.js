@@ -2,7 +2,7 @@ import Slider from './Slider'
 import { connect } from 'react-redux'
 import {
   getCurrentGuild,
-  getScoreForCategoryAndCurrentGuild
+  getScoresForCurrentEventAndGuildByCategory,
 } from '../../state/Selectors'
 import Actions from '../../state/Actions'
 
@@ -19,7 +19,7 @@ const stateful = connect((state, { category }) => {
   }
 
   return {
-    score: getScoreForCategoryAndCurrentGuild(state, {categoryId: category.id}),
+    score: getScoresForCurrentEventAndGuildByCategory(state)[category.id] || {},
     sendScoreToBackend: sendScoreToBackend
   }
 })

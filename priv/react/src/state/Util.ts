@@ -3,18 +3,29 @@ import { ById } from "./Selectors";
 export function values<V>(object: ById<V>): V[] {
   let result: V[] = []
   for (let key in object) {
-    result.push(object[key])
+    result.push(object[key] as V)
   }
   return result
 }
 
-export function groupBy<V>(list: V[], grouper: keyof V): ById<V> {
+export function asDict<V>(list: V[], grouper: keyof V): ById<V> {
   const result: ById<V> = {}
-  list.forEach(val => {
-    const key = val[grouper]
-    // TODO: Fix so we must not do a ts-ignore
-    // @ts-ignore
-    result[key] = val
-  })
-  return result
+  return list.reduce((acc, cur) => {
+    const groupKey = cur[grouper] as any
+    acc[groupKey] = cur
+    return acc
+  }, result)
+}
+
+export function groupBy<V>(list: V[], grouper: keyof V): ById<V[]> {
+  let result: ById<V[]> = {}
+  return list.reduce((acc, cur) => {
+    const groupKey = cur[grouper] as any
+    let arr = acc[groupKey] || []
+    if (!acc[groupKey]) {
+      acc[groupKey] = arr
+    }
+    arr.push(cur)
+    return acc
+  }, result)
 }
