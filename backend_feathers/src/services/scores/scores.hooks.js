@@ -1,6 +1,5 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const populateSequelizeModel = require('../../hooks/populateSequelizeModel');
-const enableUpsert = require('../../hooks/enableUpsert');
 const associateWithUser = require('../../hooks/associateWithUser');
 
 module.exports = {
@@ -16,7 +15,6 @@ module.exports = {
     update: [],
     patch: [
       associateWithUser(),
-      enableUpsert()
     ],
     remove: []
   },
