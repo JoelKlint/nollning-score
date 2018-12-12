@@ -23,7 +23,7 @@ class EventPicker extends Component {
                                 key={i}
                                 event={e}
                                 onClick={() => {
-                                    this.props.history.push(`/events/${e.id}/edit`)
+                                    this.props.history.push(`/events/${e.id}`)
                                 }}
                             />
                         )

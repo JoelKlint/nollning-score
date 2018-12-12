@@ -40,7 +40,7 @@ class EventDetail extends Component {
         </div>
 
         <Switch>
-          <Route path='/events/:event_id/edit' component={EditScore}/>
+          <Route exact path='/events/:event_id' component={EditScore}/>
           <Route path='/events/:event_id/review' component={ReviewScore} />
           <Route path='/events/:event_id/results' component={TotalResults} />
           <Route path='/events/:event_id/contributions' component={ContributionsResults} />
