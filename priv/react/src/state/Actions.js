@@ -150,26 +150,21 @@ const Actions = {
       Actions.updateEntities(normalized.entities)
     })
   },
-  setScoreForCategoryAndGuild: payload => {
-    return feathersClient.service('scores').patch(
-      null,
-      { value: payload.value },
-      {
-        query: {
-          categoryId: payload.category_id,
-          guildId: payload.guild_id
-        }
-      }
-    ).then(scores => {
-      const guildSchema = new schema.Entity('guilds')
-      const categorySchema = new schema.Entity('categories')
-      const userSchema = new schema.Entity('users')
-      const scoreSchema = new schema.Entity('scores', {
-        category: categorySchema,
-        guild: guildSchema,
-        user: userSchema
-      })
-      const normalized = normalize(scores, [scoreSchema])
+  createScore: (score) => {
+    console.log('creating')
+    return feathersClient.service('scores').create(score)
+    .then(score => {
+      const scoreSchema = new schema.Entity('scores')
+      const normalized = normalize(score, scoreSchema)
+      Actions.updateEntities(normalized.entities)
+    })
+  },
+  updateScore: (id, score) => {
+    console.log('updating')
+    return feathersClient.service('scores').patch(id, score)
+    .then(score => {
+      const scoreSchema = new schema.Entity('scores')
+      const normalized = normalize(score, scoreSchema)
       Actions.updateEntities(normalized.entities)
     })
   },

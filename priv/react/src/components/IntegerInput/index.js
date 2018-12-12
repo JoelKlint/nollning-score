@@ -7,19 +7,22 @@ import {
 import Actions from '../../state/Actions'
 
 const stateful = connect((state, { category }) => {
-
   const currentGuild = getCurrentGuild(state) || {}
+  const scores = getScoresForCurrentEventAndGuildByCategory(state)
+  const score = scores ? scores[category.id] : undefined
 
-  const sendScoreToBackend = (val) => {
-    Actions.setScoreForCategoryAndGuild({
-      category_id: category.id,
-      guild_id: currentGuild.id,
-      value: val
-    })
-  }
+  const sendScoreToBackend = score
+  ? (val) => Actions.updateScore(score.id, {
+    value: val
+  })
+  : (val) => Actions.createScore({
+    value: val,
+    categoryId: category.id,
+    guildId: currentGuild.id
+  })
 
   return {
-    score: getScoresForCurrentEventAndGuildByCategory(state)[category.id] || {},
+    score: score || {},
     sendScoreToBackend: sendScoreToBackend
   }
 })
