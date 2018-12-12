@@ -11,8 +11,12 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [],
-    update: [],
+    create: [
+      associateWithUser(),
+    ],
+    update: [
+      associateWithUser(),
+    ],
     patch: [
       associateWithUser(),
     ],
