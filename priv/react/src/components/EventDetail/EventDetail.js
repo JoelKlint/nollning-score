@@ -32,7 +32,7 @@ class EventDetail extends Component {
         <div className="Header">
           <RaisedButton
             primary
-            label={`Logout ${user.username}`}
+            label={`Logout ${user.email}`}
             className="LogoutButton"
             onClick={logOut}
           />
