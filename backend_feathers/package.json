@@ -43,6 +43,7 @@
     "feathers-authentication-hooks": "^0.3.1",
     "feathers-sequelize": "^3.1.2",
     "helmet": "^3.15.0",
+    "lodash": "^4.17.11",
     "mysql2": "^1.6.4",
     "sequelize": "^4.38.0",
     "serve-favicon": "^2.5.0",
