@@ -8,20 +8,22 @@ class Results extends Component {
   }
 
   render() {
-    const { guilds } = this.props
+    const {
+      values
+    } = this.props
     return (
       <div className="Results_Base">
-        {guilds.map((g, i) => {
+        {values.map((val, i) => {
           if(i === 0) {
             return (
               <div key={i} className="Winner">
-                {g.name}: {g.result}
+                {val.name}: {val.value}
               </div>
             )
           }
           return (
             <div key={i} className="NotWinner">
-            {g.name}: {g.result}
+            {val.name}: {val.value}
             </div>
           )
         })}
