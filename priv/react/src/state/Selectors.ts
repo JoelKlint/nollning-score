@@ -5,6 +5,14 @@ import {
   asDict,
   groupBy
 } from './Util';
+import {
+  IResult,
+  IEvent,
+  IGuild,
+  IUser,
+  ICategory,
+  IScore
+} from '../entities';
 
 type TSelector<R> = Selector<IState, R>
 export type ById<T> = Partial<{ [key: string]: T }>
@@ -200,5 +208,33 @@ export const getScoresForCurrentEventAndGuildByCategory = createSelector(
     }
     let scoreList = values(scores).filter(s => s.guildId === guild.id)
     return asDict(scoreList, 'categoryId')
+  }
+)
+
+
+export const getAllResults: TSelector<ById<IResult>> = (state) => {
+  return state.entities.results
+}
+
+export const getResultsForCurrentEvent = createSelector(
+  [getAllResults, getAllGuilds, getCurrentEvent],
+  (results, guilds, event) => {
+    if (!event) {
+      return undefined
+    }
+    const eventResults = values(results).find(result => result.id === event.id);
+    if (!eventResults) {
+      return undefined
+    }
+
+    const guildsWithResult = values(guilds).map(guild => {
+      return {
+        ...guild,
+        value: eventResults.results[guild.id] || 0
+      }
+    })
+
+    return guildsWithResult.sort((a, b) => b.value - a.value);
+
   }
 )

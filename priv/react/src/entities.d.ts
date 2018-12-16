@@ -1,3 +1,5 @@
+import { ById } from "./state/Selectors";
+
 interface ICategory {
   id: number
   name?: string
@@ -34,5 +36,10 @@ interface IUser {
   id: number
   email?: string
   role: 'basic' | 'admin'
+}
+
+interface IResult {
+  id: number
+  results: ById<number>
 }
 

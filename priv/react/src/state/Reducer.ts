@@ -16,6 +16,14 @@ import {
   Reducer
 } from 'redux';
 import { ById } from './Selectors';
+import {
+  IResult,
+  ICategory,
+  IEvent,
+  IGuild,
+  IScore,
+  IUser,
+} from '../entities';
 
 interface IAction extends Action {
   payload?: any
@@ -27,7 +35,8 @@ export interface IState {
     events: ById<IEvent>
     guilds: ById<IGuild>
     scores: ById<IScore>
-    users: ById<IUser>
+    users: ById<IUser>,
+    results: ById<IResult>
   },
   current: {
     event?: number,
@@ -68,6 +77,7 @@ const initialState: IState = {
     guilds: {},
     scores: {},
     users: {},
+    results: {},
   },
   current: {
     event: undefined,

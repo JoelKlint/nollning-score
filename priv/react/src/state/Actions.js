@@ -184,13 +184,12 @@ const Actions = {
     .catch(err => console.error(err))
   },
   getResultsForEvent: id => {
-    return fetch(`${API_BASE_URL}/api/events/${id}/results`, {
-      headers: new Headers({
-        'Authorization': `Bearer ${getJwt()}`
-      })
+    return feathersClient.service('results').get(id)
+    .then(result => {
+      const resultSchema = new schema.Entity('results')
+      const normalized = normalize(result, resultSchema)
+      Actions.updateEntities(normalized.entities)
     })
-    .then(res => interpretApiResponse(res))
-    .catch(err => console.error(err))
   },
   getContributionsForEvent: id => {
     return fetch(`${API_BASE_URL}/api/events/${id}/my_contribution`, {
