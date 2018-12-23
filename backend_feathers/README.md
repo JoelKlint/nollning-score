@@ -15,12 +15,8 @@ npm start
 
 
 # Interacting with database
-## Login
-```sh
-mysql -h 0.0.0.0 -u root -proot backend_feathers
-```
-
-## Seed
-```sh
-npm run db:seed
-```
+| Actions | Shell command                                      |
+|---------|----------------------------------------------------|
+| Login   | `mysql -h 0.0.0.0 -u root -proot backend_feathers` |
+| Seed    | `npm run db:seed`                                  |
+| Clean   | `npm run db:clean`                                 |

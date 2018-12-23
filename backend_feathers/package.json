@@ -27,7 +27,8 @@
     "dev": "nodemon src/",
     "start": "nodemon src/",
     "jest": "jest",
-    "db:seed": "node seeds.js"
+    "db:seed": "node seeds/seed.js",
+    "db:clean": "node seeds/clean.js"
   },
   "dependencies": {
     "@feathersjs/authentication": "^2.1.13",
