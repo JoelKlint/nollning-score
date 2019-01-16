@@ -1,4 +1,5 @@
 const { authenticate } = require('@feathersjs/authentication').hooks;
+const { restrictToAdmin } = require('../../hooks/authHooks');
 
 module.exports = {
   before: {
@@ -7,10 +8,18 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
-    remove: []
+    create: [
+      restrictToAdmin()
+    ],
+    update: [
+      restrictToAdmin()
+    ],
+    patch: [
+      restrictToAdmin()
+    ],
+    remove: [
+      restrictToAdmin()
+    ]
   },
 
   after: {
