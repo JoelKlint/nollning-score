@@ -1,1 +1,3 @@
-{}
+{
+  "mysql": "mysql://root:root@0.0.0.0:3306/backend_feathers_test"
+}
