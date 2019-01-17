@@ -7,7 +7,7 @@ const {
 
 const restrictToAdmin = () => context => {
   const user = context.params.user;
-  if (user.role !== 'admin') {
+  if (!user || user.role !== 'admin') {
     throw new Forbidden('Only admins can perform this action');
   }
 };
