@@ -10,7 +10,11 @@ const services = [
 
 let promise = Promise.resolve();
 services.forEach(name => {
-  promise = promise.then(() => app.service(name).remove(null));
+  promise = promise.then(() => app.service(name).remove(null, {
+    user: {
+      role: 'admin'
+    }
+  }));
 });
 
 promise

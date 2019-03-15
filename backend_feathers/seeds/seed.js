@@ -11,7 +11,11 @@ const services = [
 let promise = Promise.resolve();
 services.forEach(name => {
   promise = promise.then(() => app.service(name).create(
-    require(`./data/${name}.json`)
+    require(`./data/${name}.json`), {
+      user: {
+        role: 'admin'
+      }
+    }
   ));
 });
 
