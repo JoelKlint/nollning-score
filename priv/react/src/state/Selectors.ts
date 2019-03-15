@@ -201,6 +201,15 @@ export const getScoresForCurrentEvent = createSelector(
   }
 )
 
+export const getScoresForCurrentEventByCategory = createSelector(
+  [getScoresForCurrentEvent], (scores) => {
+    if (!scores) {
+      return undefined
+    }
+    return groupBy(values(scores), 'categoryId')
+  }
+)
+
 export const getScoresForCurrentEventAndGuildByCategory = createSelector(
   [getScoresForCurrentEvent, getCurrentGuild], (scores, guild) => {
     if (!scores || !guild) {
