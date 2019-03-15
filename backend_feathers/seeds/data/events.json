@@ -1,0 +1,46 @@
+[
+  {
+    "name": "FlyING",
+    "id": 1
+  },
+  {
+    "name": "Cheer",
+    "id": 2
+  },
+  {
+    "name": "Överphösstafett",
+    "id": 3
+  },
+  {
+    "name": "Lådbil",
+    "id": 4
+  },
+  {
+    "name": "Luphtband",
+    "id": 5
+  },
+  {
+    "name": "Ballongistapult",
+    "id": 6
+  },
+  {
+    "name": "Regattan, draggning",
+    "id": 7
+  },
+  {
+    "name": "Regattan, inspektion",
+    "id": 8
+  },
+  {
+    "name": "Regattan, tåg",
+    "id": 9
+  },
+  {
+    "name": "Regattan, slaget",
+    "id": 10
+  },
+  {
+    "name": "Regattan, städning",
+    "id": 11
+  }
+]

@@ -1,0 +1,90 @@
+[
+  {
+    "weight": 1,
+    "type": "interval",
+    "selected_guild": null,
+    "name": "Farkostens utformning",
+    "interval_min": 0,
+    "interval_max": 5,
+    "global": false,
+    "absolute": false,
+    "eventId": 1
+  },
+  {
+    "weight": 1,
+    "type": "interval",
+    "selected_guild": null,
+    "name": "Temaenlighet",
+    "interval_min": 0,
+    "interval_max": 5,
+    "global": false,
+    "absolute": false,
+    "eventId": 1
+  },
+  {
+    "weight": 1,
+    "type": "interval",
+    "selected_guild": null,
+    "name": "Klädselns påhittighet",
+    "interval_min": 0,
+    "interval_max": 5,
+    "global": false,
+    "absolute": false,
+    "eventId": 1
+  },
+  {
+    "weight": 1,
+    "type": "interval",
+    "selected_guild": null,
+    "name": "Hoppets snygghet",
+    "interval_min": 0,
+    "interval_max": 5,
+    "global": false,
+    "absolute": false,
+    "eventId": 1
+  },
+  {
+    "weight": 1,
+    "type": "interval",
+    "selected_guild": null,
+    "name": "Pilotens agerande",
+    "interval_min": 0,
+    "interval_max": 5,
+    "global": false,
+    "absolute": false,
+    "eventId": 1
+  },
+  {
+    "weight": 1,
+    "type": "interval",
+    "selected_guild": null,
+    "name": "Hejarklack under hoppet",
+    "interval_min": 0,
+    "interval_max": 5,
+    "global": false,
+    "absolute": false,
+    "eventId": 1
+  },
+  {
+    "weight": 1,
+    "type": "interval",
+    "selected_guild": null,
+    "name": "Sektionstagg",
+    "interval_min": 0,
+    "interval_max": 5,
+    "global": false,
+    "absolute": false,
+    "eventId": 1
+  },
+  {
+    "weight": 1,
+    "type": "interval",
+    "selected_guild": null,
+    "name": "Städning",
+    "interval_min": 0,
+    "interval_max": 5,
+    "global": false,
+    "absolute": false,
+    "eventId": 1
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "name": "F",
+    "id": 1,
+    "color": "#f8941e"
+  },
+  {
+    "name": "E",
+    "id": 2,
+    "color": "#ffffff"
+  },
+  {
+    "name": "M",
+    "id": 3,
+    "color": "#ed2024"
+  },
+  {
+    "name": "V",
+    "id": 4,
+    "color": "#3952a4"
+  },
+  {
+    "name": "A",
+    "id": 5,
+    "color": "#91258f"
+  },
+  {
+    "name": "K",
+    "id": 6,
+    "color": "#ffff00"
+  },
+  {
+    "name": "D",
+    "id": 7,
+    "color": "#f280a1"
+  },
+  {
+    "name": "ING",
+    "id": 8,
+    "color": "#2b318b"
+  },
+  {
+    "name": "W",
+    "id": 9,
+    "color": "#6fccdd"
+  },
+  {
+    "name": "I",
+    "id": 10,
+    "color": "#971b1e"
+  }
+]
